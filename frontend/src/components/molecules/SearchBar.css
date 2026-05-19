@@ -1,0 +1,88 @@
+.search-bar {
+  width: 100%;
+}
+
+.search-bar-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  overflow: hidden;
+}
+.search-bar-inner:focus-within {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: 0.875rem;
+  color: rgba(255,255,255,0.8);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.search-bar-input {
+  width: 100%;
+  padding: 0.55rem 2.75rem 0.55rem 2.75rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 400;
+  color: #fff;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.search-bar-input::placeholder { color: rgba(255,255,255,0.65); }
+.search-bar-input::-webkit-search-cancel-button { display: none; }
+
+.search-bar-clear {
+  position: absolute;
+  right: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.search-bar-clear:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Light variant (on white bg) ────────────────────────── */
+.search-bar.light .search-bar-inner {
+  background: var(--color-surface-100);
+  border-color: var(--color-surface-300);
+}
+.search-bar.light .search-bar-inner:focus-within {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
+  background: #fff;
+}
+.search-bar.light .search-bar-icon { color: var(--color-text-muted); }
+.search-bar.light .search-bar-input { color: var(--color-text-main); }
+.search-bar.light .search-bar-input::placeholder { color: var(--color-text-muted); }
+.search-bar.light .search-bar-clear {
+  background: var(--color-surface-200);
+  color: var(--color-text-muted);
+}
+.search-bar.light .search-bar-clear:hover {
+  background: var(--color-surface-300);
+}
+
+/* ── Hero variant (large) ───────────────────────────────── */
+.search-bar.hero .search-bar-input {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  font-size: 1rem;
+}

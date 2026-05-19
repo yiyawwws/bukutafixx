@@ -1,0 +1,368 @@
+/* ── BuyerOrders Page ───────────────────────────────────── */
+.buyer-orders-page {
+  max-width: 860px;
+}
+
+.buyer-orders-loading,
+.buyer-orders-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 0.5rem;
+  color: var(--color-surface-500);
+  text-align: center;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.buyer-orders-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ── Empty State ─────────────────────────────────────────── */
+.buyer-orders-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-surface-200);
+  text-align: center;
+}
+
+.buyer-orders-shop-btn {
+  margin-top: 1.25rem;
+  display: inline-block;
+  padding: 0.625rem 1.5rem;
+  background: var(--color-primary-500);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.buyer-orders-shop-btn:hover { background: var(--color-primary-600); }
+
+/* ── Order List ──────────────────────────────────────────── */
+.buyer-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+/* ── Order Card ──────────────────────────────────────────── */
+.buyer-order-card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-surface-200);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.buyer-order-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+}
+
+/* Card Header */
+.buyer-order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-50);
+  border-bottom: 1px solid var(--color-surface-200);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+@media (min-width: 480px) {
+  .buyer-order-card-header { padding: 0.875rem 1.25rem; }
+}
+
+.buyer-order-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.buyer-order-id {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-primary-600);
+}
+
+.buyer-order-date {
+  font-size: 0.8rem;
+  color: var(--color-surface-500);
+}
+
+.buyer-order-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Items */
+.buyer-order-items-preview {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.buyer-order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.buyer-order-item-img {
+  width: 3rem;
+  height: 4rem;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-surface-200);
+  flex-shrink: 0;
+}
+
+.buyer-order-item-img-placeholder {
+  width: 3rem;
+  height: 4rem;
+  background: var(--color-surface-100);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-surface-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.buyer-order-item-info { min-width: 0; }
+
+.buyer-order-item-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-surface-800);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buyer-order-item-sub {
+  font-size: 0.775rem;
+  color: var(--color-surface-500);
+  margin: 0.15rem 0 0;
+}
+
+.buyer-order-more {
+  font-size: 0.8rem;
+  color: var(--color-primary-500);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Detail section */
+.buyer-order-detail {
+  padding: 0 1.25rem 0.75rem;
+  border-top: 1px dashed var(--color-surface-200);
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.buyer-order-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+.buyer-order-detail-row > span:first-child {
+  color: var(--color-surface-500);
+  white-space: nowrap;
+}
+.buyer-order-detail-row > span:last-child,
+.buyer-order-detail-row > div:last-child {
+  color: var(--color-surface-700);
+  text-align: right;
+  font-weight: 500;
+}
+
+.buyer-order-wa-btn {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  background: #25D366;
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: 0.775rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.buyer-order-wa-btn:hover { opacity: 0.85; }
+
+/* Card Footer */
+.buyer-order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--color-surface-100);
+  background: var(--color-surface-50);
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+@media (min-width: 480px) {
+  .buyer-order-card-footer { padding: 0.75rem 1.25rem; }
+}
+@media (max-width: 400px) {
+  .buyer-order-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .buyer-order-actions { width: 100%; }
+  .buyer-order-toggle-btn { width: 100%; justify-content: center; }
+}
+
+.buyer-order-total {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-surface-600);
+}
+.buyer-order-total strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary-600);
+}
+
+.buyer-order-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buyer-order-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--color-primary-600);
+  background: transparent;
+  border: 1px solid var(--color-primary-200);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  min-height: 44px;
+}
+.buyer-order-toggle-btn:hover {
+  background: var(--color-primary-50);
+}
+
+/* ── Dispute Banner (inside expanded detail) ─────────────── */
+.buyer-order-dispute-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-md);
+  color: #92400E;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+.buyer-order-dispute-banner svg {
+  flex-shrink: 0;
+  color: #F59E0B;
+  margin-top: 1px;
+}
+
+/* ── WhatsApp button ─────────────────────────────────────── */
+.buyer-order-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: #25D366;
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+.buyer-order-wa-btn:hover { background: #128C7E; }
+
+/* ── Success Banner ──────────────────────────────────────── */
+.buyer-orders-success-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1px solid #86efac;
+  border-radius: var(--radius-xl);
+  color: #166534;
+  margin-bottom: 2rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+  animation: slideDown 0.3s ease-out both;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.buyer-orders-success-banner svg {
+  flex-shrink: 0;
+  color: #22c55e;
+  margin-top: 2px;
+}
+.buyer-orders-success-banner .banner-text {
+  flex: 1;
+}
+.buyer-orders-success-banner .banner-text strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.buyer-orders-success-banner .banner-text p {
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+  color: #15803d;
+}
+.close-banner-btn {
+  background: transparent;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #166534;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-banner-btn:hover {
+  opacity: 1;
+}
+.close-banner-btn svg {
+  margin: 0;
+  color: inherit;
+}

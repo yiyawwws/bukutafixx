@@ -1,0 +1,312 @@
+/* ── Overlay ─────────────────────────────────────────────── */
+.dispute-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: disputeFadeIn 0.2s ease;
+}
+@keyframes disputeFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal Box ───────────────────────────────────────────── */
+.dispute-modal {
+  background: var(--color-surface-100);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: disputeSlideUp 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes disputeSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.dispute-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-surface-200);
+}
+
+.dispute-modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dispute-modal-icon-wrap {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background: #FEF3C7;
+  border: 1px solid #FDE68A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dispute-modal-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0;
+}
+.dispute-modal-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0.125rem 0 0;
+}
+
+.dispute-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast), color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+.dispute-modal-close:hover {
+  background: var(--color-surface-200);
+  color: var(--color-text-main);
+}
+
+/* ── Info Strip ──────────────────────────────────────────── */
+.dispute-modal-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #FFFBEB;
+  border-bottom: 1px solid #FDE68A;
+  font-size: 0.8125rem;
+  color: #92400E;
+  line-height: 1.5;
+}
+.dispute-modal-info svg { flex-shrink: 0; margin-top: 1px; color: #F59E0B; }
+
+/* ── Form ────────────────────────────────────────────────── */
+.dispute-modal-form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dispute-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dispute-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.dispute-label span { color: var(--color-danger); }
+.dispute-label-optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* ── Reason chips ────────────────────────────────────────── */
+.dispute-reason-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dispute-reason-chip {
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-surface-300);
+  background: var(--color-surface-50);
+  color: var(--color-text-main);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.dispute-reason-chip:hover {
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-600);
+  background: var(--color-primary-50);
+}
+.dispute-reason-chip.selected {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-600);
+  color: #fff;
+}
+
+/* ── Textarea ────────────────────────────────────────────── */
+.dispute-textarea {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--color-text-main);
+  background: var(--color-surface-100);
+  border: 1.5px solid var(--color-surface-300);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+  box-sizing: border-box;
+}
+.dispute-textarea:focus {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(24,119,242,0.15);
+}
+.dispute-textarea::placeholder { color: var(--color-text-muted); opacity: 0.7; }
+
+.dispute-char-count {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-align: right;
+  margin-top: -0.25rem;
+}
+
+/* ── Error ───────────────────────────────────────────────── */
+.dispute-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: #FFF0F0;
+  border: 1px solid #FECACA;
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.dispute-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+@media (max-width: 480px) {
+  .dispute-modal-form { padding: 1rem; }
+  .dispute-modal-header { padding: 1rem; }
+  .dispute-modal-footer { flex-direction: column-reverse; }
+  .dispute-modal-footer > * { width: 100%; }
+  .dispute-reason-grid { gap: 0.375rem; }
+}
+
+/* ── Video Upload Section ─────────────────────────────────── */
+.dispute-video-helper {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 0.25rem;
+  line-height: 1.5;
+}
+
+.dispute-video-formats {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0 0 0.625rem;
+}
+
+.dispute-video-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  border: 2px dashed var(--color-surface-300);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-50);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-align: center;
+}
+.dispute-video-dropzone:hover {
+  border-color: var(--color-primary-400);
+  background: var(--color-primary-50);
+}
+.dispute-video-dropzone--has-file {
+  border-color: var(--color-success, #16a34a);
+  background: #f0fdf4;
+  border-style: solid;
+}
+
+.dispute-video-upload-icon {
+  color: var(--color-text-muted);
+}
+.dispute-video-dropzone-text {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.dispute-video-icon-ok {
+  color: var(--color-success, #16a34a);
+}
+.dispute-video-filename {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  word-break: break-all;
+  max-width: 280px;
+}
+.dispute-video-filesize {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+.dispute-video-change {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--color-primary-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+.dispute-video-change:hover { color: var(--color-primary-700); }
+
+.dispute-video-preview {
+  margin-top: 0.75rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-surface-200);
+  background: #000;
+}
+.dispute-video-player {
+  width: 100%;
+  max-height: 220px;
+  display: block;
+  border-radius: var(--radius-md);
+}

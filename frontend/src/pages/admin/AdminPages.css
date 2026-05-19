@@ -1,0 +1,459 @@
+/* AdminPages.css */
+.admin-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+@media (max-width: 480px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-header > * { width: 100%; }
+}
+
+.admin-table-card {
+  background: var(--color-surface-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  border: 1px solid var(--color-surface-200);
+}
+
+.admin-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: var(--color-surface-50);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.875rem 1rem;
+  border-bottom: 2px solid var(--color-surface-200);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--color-surface-200);
+  color: var(--color-text-main);
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--color-surface-50);
+}
+
+.admin-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Pagination container if needed */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid var(--color-surface-200);
+}
+
+/* User Avatar & Info */
+.admin-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.admin-user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-user-name {
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.admin-user-email {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.admin-user-nim {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin-top: 0.1rem;
+}
+
+/* ─── Document Buttons ────────────────────────────── */
+.doc-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.doc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: filter 0.15s;
+}
+
+.doc-btn:hover {
+  filter: brightness(1.1);
+}
+
+.doc-btn--ktm {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.doc-btn--selfie {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.doc-missing {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.doc-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Image Preview Modal ─────────────────────────── */
+.img-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.img-modal-box {
+  background: var(--color-surface-100, #1e1e2e);
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.img-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-surface-200, #2a2a3e);
+}
+
+.img-modal-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text-main, #fff);
+}
+
+.img-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted, #aaa);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.img-modal-close:hover {
+  background: var(--color-surface-200, #2a2a3e);
+  color: var(--color-text-main, #fff);
+}
+
+.img-modal-body {
+  padding: 1rem;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-modal-image {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 8px;
+  object-fit: contain;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+/* ─── Book Detail Modal ───────────────────────────── */
+.book-detail-modal-box {
+  background: var(--color-surface-100, #1e1e2e);
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  width: min(92vw, 900px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.2s ease;
+}
+
+.book-detail-modal-body {
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.book-dm-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .book-dm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Images side */
+.book-dm-images {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.book-dm-main-img {
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-surface-200, #2a2a3e);
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-dm-main-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-dm-no-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.book-dm-thumbs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.book-dm-thumb {
+  width: 48px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  transition: border-color 0.15s;
+}
+
+.book-dm-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-dm-thumb.active {
+  border-color: var(--color-primary, #1877F2);
+}
+
+/* Info side */
+.book-dm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.book-dm-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary, #1877F2);
+}
+
+.book-dm-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-main, #fff);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.book-dm-author {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.book-dm-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.book-dm-price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-primary, #1877F2);
+}
+
+.book-dm-attrs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem;
+  background: var(--color-surface-200, #2a2a3e);
+  border-radius: 8px;
+}
+
+.book-dm-attr {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-main, #fff);
+}
+
+.book-dm-attr svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.book-dm-desc {
+  border-top: 1px solid var(--color-surface-200, #2a2a3e);
+  padding-top: 0.75rem;
+}
+
+.book-dm-desc h4 {
+  margin: 0 0 0.4rem 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-main, #fff);
+}
+
+.book-dm-desc p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.book-dm-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.book-dm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: filter 0.15s, transform 0.1s;
+}
+
+.book-dm-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.book-dm-btn--approve {
+  background: #16a34a;
+  color: #fff;
+}
+
+.book-dm-btn--reject {
+  background: #d97706;
+  color: #fff;
+}

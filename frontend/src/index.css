@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Facebook Blue Palette ─────────────────────────── */
+  --color-primary-50:  #E7F3FF;
+  --color-primary-100: #C5DCFA;
+  --color-primary-200: #9AC2F7;
+  --color-primary-500: #1877F2;
+  --color-primary-600: #166FE5;
+  --color-primary-700: #1464CC;
+  --color-primary-800: #0F4A99;
+
+  /* Facebook dark accent */
+  --color-fb-dark:   #1C2B4A;
+  --color-fb-darker: #0F1E35;
+
+  /* ── Secondary (warm accent) ────────────────────────── */
+  --color-secondary-50:  #FFF8E1;
+  --color-secondary-500: #FFB300;
+  --color-secondary-600: #E6A000;
+
+  /* ── Surface (Light Mode) ───────────────────────────── */
+  --color-surface-50:  #F0F2F5;   /* Facebook bg */
+  --color-surface-100: #FFFFFF;
+  --color-surface-200: #E4E6EB;
+  --color-surface-300: #CED0D4;
+  --color-surface-800: #1C2B4A;
+  --color-surface-900: #0F1E35;
+
+  /* ── Text ────────────────────────────────────────────── */
+  --color-text-main:  #1C1E21;
+  --color-text-muted: #65676B;
+  --color-text-light: #FFFFFF;
+
+  /* ── Semantic ────────────────────────────────────────── */
+  --color-success: #31A24C;
+  --color-danger:  #FA3E3E;
+  --color-warning: #FFB300;
+
+  /* ── Typography ──────────────────────────────────────── */
+  --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+
+  /* ── Shadows ─────────────────────────────────────────── */
+  --shadow-xs:  0 1px 2px 0 rgba(0,0,0,0.06);
+  --shadow-sm:  0 2px 4px 0 rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.10);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,0.12);
+  --shadow-xl:  0 16px 40px rgba(0,0,0,0.14);
+  --shadow-glow: 0 0 20px rgba(24,119,242,0.35);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+
+  /* ── Radii ───────────────────────────────────────────── */
+  --radius-xs:   0.25rem;
+  --radius-sm:   0.375rem;
+  --radius-md:   0.75rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Transitions ─────────────────────────────────────── */
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Spacing scale ───────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+}
+
+/* ── Dark mode overrides ─────────────────────────────────── */
+body.dark {
+  --color-surface-50:  #18191A;
+  --color-surface-100: #242526;
+  --color-surface-200: #3A3B3C;
+  --color-surface-300: #4E4F50;
+  --color-text-main:   #E4E6EB;
+  --color-text-muted:  #B0B3B8;
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-surface-50);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+a {
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover { color: var(--color-primary-700); }
+
+button { font-family: inherit; cursor: pointer; }
+
+img { max-width: 100%; display: block; }
+
+/* ── Glassmorphism ───────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+body.dark .glass {
+  background: rgba(36,37,38,0.85);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+  background-color: var(--color-surface-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+body.dark .card {
+  background-color: var(--color-surface-100);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-300);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary-500); }
+
+/* ── Container ───────────────────────────────────────────── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+@media (min-width: 768px) {
+  .container { padding: 0 2rem; }
+}
+
+/* ── Utility Classes ─────────────────────────────────────── */
+.text-center  { text-align: center; }
+.text-primary { color: var(--color-primary-600); }
+.text-danger  { color: var(--color-danger); }
+.text-muted   { color: var(--color-text-muted); }
+.text-success { color: var(--color-success); }
+
+.font-medium { font-weight: 500; }
+.font-bold   { font-weight: 700; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.p-4  { padding: 1rem; }
+
+.flex           { display: flex; }
+.items-center   { align-items: center; }
+.justify-between{ justify-content: space-between; }
+.justify-center { justify-content: center; }
+.flex-col       { flex-direction: column; }
+.gap-2          { gap: 0.5rem; }
+.gap-4          { gap: 1rem; }
+.gap-6          { gap: 1.5rem; }
+.w-full         { width: 100%; }
+.h-full         { height: 100%; }
+
+/* ── Section separator ───────────────────────────────────── */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-surface-200);
+  margin: 2rem 0;
+}
+
+/* ── Skeleton loader ─────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface-200) 25%, var(--color-surface-100) 50%, var(--color-surface-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes skeleton-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ── Fade-in animation ───────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.4s ease-out both; }
+
+/* ── Spin animation (for loading spinners) ───────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Page header ─────────────────────────────────────────── */
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-surface-200);
+}

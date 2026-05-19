@@ -1,0 +1,110 @@
+.review-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: reviewFadeIn 0.2s ease;
+}
+
+@keyframes reviewFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.review-modal-content {
+  background: var(--color-surface-100);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.review-modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.review-modal-close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.review-modal-close:hover {
+  background: var(--color-surface-200);
+  color: var(--color-text-primary);
+}
+
+.review-modal-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.75rem;
+}
+
+.review-modal-desc {
+  margin-bottom: 1.5rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.review-stars-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-star {
+  color: var(--color-surface-400);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.review-star:hover {
+  transform: scale(1.1);
+}
+
+.review-star.filled {
+  color: #FBBF24; /* Amber/Yellow for stars */
+  fill: #FBBF24;
+}
+
+.review-rating-label {
+  text-align: center;
+  min-height: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.review-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
