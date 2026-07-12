@@ -3,6 +3,9 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   timeout: 30000, // 30 detik timeout untuk mengakomodasi upload file ke Cloudinary
+  headers: {
+    'ngrok-skip-browser-warning': 'true'
+  }
 });
 
 // Add a request interceptor to append the token
