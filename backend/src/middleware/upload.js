@@ -1,17 +1,6 @@
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
-
-// Upload foto buku ke folder bukuta/books di Cloudinary
-// Mendukung multi-upload hingga 5 foto per buku
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'bukuta/books',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 1000, height: 1400, crop: 'limit', quality: 'auto' }],
-  },
-});
+// Upload foto buku disimpan ke memory sebelum di-insert ke DB
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];

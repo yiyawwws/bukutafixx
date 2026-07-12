@@ -1,16 +1,6 @@
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
-
-// Upload shipment proof to Cloudinary under bukuta/shipping_proofs
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'bukuta/shipping_proofs',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf'],
-    transformation: [{ quality: 'auto' }],
-  },
-});
+// Upload shipment proof disimpan ke memory sebelum di-insert ke DB
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];

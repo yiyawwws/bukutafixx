@@ -1,16 +1,6 @@
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
-
-// Upload avatar profil ke folder bukuta/avatars di Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'bukuta/avatars',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 400, height: 400, crop: 'fill', gravity: 'face', quality: 'auto' }],
-  },
-});
+// Upload avatar profil disimpan ke memory sebelum di-insert ke DB
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];

@@ -19,6 +19,7 @@ const payRoutes       = require('./routes/pay');
 const disputeRoutes   = require('./routes/dispute');
 const escrowRoutes      = require('./routes/escrow');
 const withdrawalRoutes  = require('./routes/withdrawal');
+const filesRoutes       = require('./routes/files');
 const ComplaintController = require('./controllers/ComplaintController');
 
 const { authLimiter, apiLimiter } = require('./middleware/rateLimiter');
@@ -139,6 +140,7 @@ app.use('/api/pay',        payRoutes);     // pembayaran manual
 app.use('/api/dispute',    disputeRoutes);
 app.use('/api/escrow',     escrowRoutes);
 app.use('/api/withdrawal', withdrawalRoutes);
+app.use('/api/files',      filesRoutes);
 
 // ─── GET /api/complaints (Admin only) ─────────────────────
 const { verifyToken } = require('./middleware/auth');

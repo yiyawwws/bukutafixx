@@ -4,6 +4,7 @@ const pool = require('../config/database');
 const { verifyToken } = require('../middleware/auth');
 const { requireRole, requireActiveRole } = require('../middleware/role');
 const upload = require('../middleware/upload');
+const { saveFileToDB } = require('../utils/fileUpload');
 
 const BookController = require('../controllers/BookController');
 
@@ -302,8 +303,13 @@ router.post('/', verifyToken, requireActiveRole('seller'), multerErrorHandler,
 
     const { title, author, isbn, category_id, condition, description, price, stock } = req.body;
     const files = req.files || [];
+    const fileUrls = [];
+    for (const file of files) {
+      const url = await saveFileToDB(file);
+      if (url) fileUrls.push(url);
+    }
 
-    const cover_image = files.length > 0 ? files[0].path : null;
+    const cover_image = fileUrls.length > 0 ? fileUrls[0] : null;
 
     const connection = await pool.getConnection();
     try {
@@ -315,9 +321,9 @@ router.post('/', verifyToken, requireActiveRole('seller'), multerErrorHandler,
       );
       const bookId = result.insertId;
 
-      if (files.length > 0) {
-        const imageValues = files.map((file, index) => [
-          bookId, file.path, index === 0, index
+      if (fileUrls.length > 0) {
+        const imageValues = fileUrls.map((url, index) => [
+          bookId, url, index === 0, index
         ]);
         await connection.query(
           'INSERT INTO book_images (book_id, url, is_cover, sort_order) VALUES ?',
@@ -385,18 +391,24 @@ router.put('/:id', verifyToken, upload.array('images', 5), async (req, res) => {
       }
 
       const filesToAdd = req.files.slice(0, remaining);
+      const fileUrls = [];
+      for (const file of filesToAdd) {
+        const url = await saveFileToDB(file);
+        if (url) fileUrls.push(url);
+      }
+      
       const [[{ maxOrder }]] = await connection.query(
         'SELECT COALESCE(MAX(sort_order), -1) as maxOrder FROM book_images WHERE book_id = ?', [bookId]
       );
 
-      const imageValues = filesToAdd.map((file, index) => [
-        bookId, file.path, false, maxOrder + 1 + index
+      const imageValues = fileUrls.map((url, index) => [
+        bookId, url, false, maxOrder + 1 + index
       ]);
       await connection.query('INSERT INTO book_images (book_id, url, is_cover, sort_order) VALUES ?', [imageValues]);
 
-      if (cnt === 0) {
+      if (cnt === 0 && fileUrls.length > 0) {
         updates.push('cover_image = ?');
-        params.push(filesToAdd[0].path);
+        params.push(fileUrls[0]);
       }
     }
 

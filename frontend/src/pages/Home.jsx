@@ -25,11 +25,12 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const page = parseInt(searchParams.get('page') || '1', 10);
 
-  const fetchBooks = useCallback(async (search = '', category = '') => {
+  const fetchBooks = useCallback(async (search = '', category = '', pageNum = 1) => {
     setLoading(true);
     try {
-      const params = {};
+      const params = { page: pageNum, limit: 20 };
       if (search) params.search = search;
       if (category) params.category = category;
       const data = await bookService.getAvailable(params);
@@ -45,8 +46,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    fetchBooks(searchQuery, activeCategory);
-  }, [searchQuery, activeCategory, fetchBooks]);
+    fetchBooks(searchQuery, activeCategory, page);
+  }, [searchQuery, activeCategory, page, fetchBooks]);
 
   const handleSearch = (query) => {
     if (query) {
@@ -141,9 +142,14 @@ const Home = () => {
           <Typography variant="h3" weight="bold">
             {isSearching ? 'Hasil Pencarian' : 'Rekomendasi Buku'}
           </Typography>
-          {!isSearching && books.length > 0 && (
-            <Link to="/?page=2">
-              <Button variant="outline" size="sm">Lihat Semua →</Button>
+          {!isSearching && books.length > 0 && page * 20 < totalBooks && (
+            <Link to={`/?page=${page + 1}`}>
+              <Button variant="outline" size="sm">Halaman Selanjutnya →</Button>
+            </Link>
+          )}
+          {!isSearching && page > 1 && (
+            <Link to={`/?page=${page - 1}`} style={{ marginLeft: '10px' }}>
+              <Button variant="outline" size="sm">← Halaman Sebelumnya</Button>
             </Link>
           )}
         </div>

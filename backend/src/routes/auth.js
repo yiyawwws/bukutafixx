@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator');
 const pool = require('../config/database');
 const { verifyToken } = require('../middleware/auth');
 const uploadKtm = require('../middleware/uploadKtm');
+const { saveFileToDB } = require('../utils/fileUpload');
 const AuthController = require('../controllers/AuthController');
 
 const router = express.Router();
@@ -69,8 +70,8 @@ router.post(
       let ktm_url = null;
       let selfie_ktm_url = null;
       if (req.files) {
-        if (req.files['ktm_image']) ktm_url = req.files['ktm_image'][0].path;
-        if (req.files['selfie_image']) selfie_ktm_url = req.files['selfie_image'][0].path;
+        if (req.files['ktm_image']) ktm_url = await saveFileToDB(req.files['ktm_image'][0]);
+        if (req.files['selfie_image']) selfie_ktm_url = await saveFileToDB(req.files['selfie_image'][0]);
       }
 
       const [result] = await pool.query(

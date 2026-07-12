@@ -2,8 +2,8 @@
 -- BookBekas Database Schema
 -- ============================================
 
-USE bookbekas_db;
-
+SET FOREIGN_KEY_CHECKS = 0;
+-- USE bookbekas_db;
 -- Tabel categories
 CREATE TABLE IF NOT EXISTS categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -130,6 +130,15 @@ CREATE TABLE IF NOT EXISTS messages (
   FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Tabel files
+CREATE TABLE IF NOT EXISTS files (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  filename VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  data LONGBLOB NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ============================================
 -- Escrow & Wallet Service Tables
 -- ============================================
@@ -204,3 +213,5 @@ INSERT IGNORE INTO categories (name, slug) VALUES
 -- Default admin user (password: admin123)
 INSERT IGNORE INTO users (name, email, password, role, active_role) VALUES
 ('Administrator', 'admin@bookbekas.com', '$2b$10$VWP9YZnXNq7abItFEbH7vOK4lB.Q33sZOzzDzLUGdNgv3I36CxNTW', 'admin', 'buyer');
+
+SET FOREIGN_KEY_CHECKS = 1;

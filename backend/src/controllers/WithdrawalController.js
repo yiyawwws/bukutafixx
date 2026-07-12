@@ -1,4 +1,6 @@
 const pool = require('../config/database');
+const { SellerWalletModel } = require('../models/EscrowWalletModel');
+const { saveFileToDB } = require('../utils/fileUpload');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SELLER — Bank Account Management
@@ -447,7 +449,7 @@ exports.adminMarkPaid = async (req, res) => {
     }
 
     const request = rows[0];
-    const transferProofUrl = req.file ? req.file.path : null;
+    const transferProofUrl = req.file ? await saveFileToDB(req.file) : null;
 
     await connection.beginTransaction();
 

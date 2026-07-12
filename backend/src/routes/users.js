@@ -6,6 +6,7 @@ const pool = require('../config/database');
 const { verifyToken } = require('../middleware/auth');
 const { requireRole } = require('../middleware/role');
 const uploadAvatar = require('../middleware/uploadAvatar');
+const { saveFileToDB } = require('../utils/fileUpload');
 
 const router = express.Router();
 
@@ -80,9 +81,7 @@ router.put('/profile', verifyToken, uploadAvatar.single('avatar'),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      if (req.file && req.file.path && !req.file.path.startsWith('http')) {
-        try { fs.unlinkSync(req.file.path); } catch (_) {}
-      }
+      // Error validasi (file memory otomatis di-garbage-collect)
       return res.status(422).json({ success: false, errors: errors.array() });
     }
 
@@ -107,8 +106,11 @@ router.put('/profile', verifyToken, uploadAvatar.single('avatar'),
       }
 
       if (req.file) {
-        updates.push('avatar = ?');
-        params.push(req.file.path); // URL Cloudinary
+        const fileUrl = await saveFileToDB(req.file);
+        if (fileUrl) {
+          updates.push('avatar = ?');
+          params.push(fileUrl);
+        }
       }
 
       if (updates.length === 0) return res.status(400).json({ success: false, message: 'Tidak ada data yang diupdate' });

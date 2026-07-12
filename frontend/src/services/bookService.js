@@ -11,7 +11,7 @@ export const bookService = {
   // /books/list tidak memiliki JOIN yang lengkap (tidak ada cover_url, category_name, dll.)
   getAvailable: async (params = {}) => {
     const response = await api.get('/books', {
-      params: { ...params, page: 1, limit: 20 }
+      params: { page: 1, limit: 20, ...params }
     });
     return response.data;
   },

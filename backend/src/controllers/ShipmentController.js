@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const OrderFlowService = require('../services/OrderFlowService');
+const { saveFileToDB } = require('../utils/fileUpload');
 
 class ShipmentController {
 
@@ -15,7 +16,7 @@ class ShipmentController {
     let shipping_proof_image = req.body.shipping_proof_image;
 
     if (req.file) {
-      shipping_proof_image = req.file.path;
+      shipping_proof_image = await saveFileToDB(req.file);
     }
 
     if (!courier_name || !courier_name.trim()) {

@@ -89,9 +89,6 @@ const Login = () => {
           </button>
         </div>
 
-        <div className="auth-forgot">
-          <a href="#" className="auth-forgot-link">Lupa password?</a>
-        </div>
 
         <Button
           type="submit"

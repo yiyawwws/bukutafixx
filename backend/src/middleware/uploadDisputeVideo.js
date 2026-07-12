@@ -1,16 +1,6 @@
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
-
-// Upload dispute unboxing video to Cloudinary under bukuta/dispute_videos
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'bukuta/dispute_videos',
-    resource_type: 'video',
-    allowed_formats: ['mp4', 'webm', 'mov'],
-  },
-});
+// Upload dispute video disimpan ke memory sebelum di-insert ke DB
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowedMimes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/mov'];

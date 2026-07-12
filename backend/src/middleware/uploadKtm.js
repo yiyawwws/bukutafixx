@@ -1,17 +1,6 @@
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
-
-// Upload KTM ke folder bukuta/ktms di Cloudinary
-// Folder ini sebaiknya diset sebagai "restricted" di Cloudinary dashboard
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'bukuta/ktms',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    // Tidak ada transformasi agar dokumen KTM tetap terbaca jelas
-  },
-});
+// Upload KTM disimpan ke memory sebelum di-insert ke DB
+const storage = multer.memoryStorage();
 
 const fileFilter = (_req, file, cb) => {
   const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];

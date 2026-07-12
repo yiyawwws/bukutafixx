@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 const { ChatModel, ReviewModel } = require('../models/MiscModels');
 const { EscrowTransactionModel, SellerWalletModel } = require('../models/EscrowWalletModel');
+const { saveFileToDB } = require('../utils/fileUpload');
 
 // ─────────────────────────────────────────────────────────────
 // ChatController
@@ -90,8 +91,8 @@ class DisputeController {
       return res.status(400).json({ success: false, message: 'Hanya file video yang diizinkan (MP4, WEBM, MOV).' });
     }
 
-    // Cloudinary secure URL from multer-storage-cloudinary
-    const unboxingVideoUrl = req.file.path; // CloudinaryStorage sets path = secure_url
+    // URL lokal dari database files
+    const unboxingVideoUrl = await saveFileToDB(req.file);
 
     // Combine reason + optional description into full reason string
     const fullReason = description
