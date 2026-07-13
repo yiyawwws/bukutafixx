@@ -287,7 +287,7 @@ const AdminBooks = () => {
           <Typography variant="small" color="muted">Tinjau dan setujui buku baru yang diposting oleh penjual.</Typography>
         </div>
         <div style={{ width: '300px' }}>
-          <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul atau penulis..." />
+          <SearchBar className="light" onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul atau penulis..." />
         </div>
       </div>
 

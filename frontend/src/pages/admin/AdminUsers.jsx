@@ -195,7 +195,7 @@ const AdminUsers = () => {
           <Typography variant="small" color="muted">Kelola akun, verifikasi KTM, dan blokir pengguna bermasalah.</Typography>
         </div>
         <div style={{ width: '300px' }}>
-          <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari nama atau email..." />
+          <SearchBar className="light" onSearch={(q) => setSearchQuery(q)} placeholder="Cari nama atau email..." />
         </div>
       </div>
 

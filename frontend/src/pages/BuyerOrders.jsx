@@ -42,6 +42,7 @@ const BuyerOrders = () => {
   const [error, setError]           = useState(null);
   const [expanded, setExpanded]     = useState({});
   const [cancelling, setCancelling] = useState(null);
+  const [paying, setPaying]         = useState(null);
   const [disputeOrder, setDisputeOrder] = useState(null);
   const [disputedIds, setDisputedIds]   = useState(new Set());
   const [searchParams, setSearchParams] = useSearchParams();
@@ -128,6 +129,22 @@ const BuyerOrders = () => {
       } catch (err) {
         console.error('Failed to fetch review', err);
       }
+    }
+  };
+
+  const handlePay = async (orderId) => {
+    try {
+      setPaying(orderId);
+      const res = await payService.createPayment({ order_id: orderId, payment_method: 'qris' });
+      if (res.success && res.data?.payment_url) {
+        window.open(res.data.payment_url, '_blank');
+      } else {
+        toast.error(res.message || 'Gagal memulai pembayaran');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Gagal memulai pembayaran');
+    } finally {
+      setPaying(null);
     }
   };
 
@@ -284,7 +301,7 @@ const BuyerOrders = () => {
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div style={{ width: '250px' }}>
-            <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari ID Pesanan / Buku..." />
+            <SearchBar className="light" onSearch={(q) => setSearchQuery(q)} placeholder="Cari ID Pesanan / Buku..." />
           </div>
           <Button onClick={fetchOrders} variant="outline" size="sm" leftIcon={<RefreshCw size={15}/>}>
             Refresh
@@ -318,7 +335,7 @@ const BuyerOrders = () => {
             const statusInfo = statusMap[order.status] || { label: order.status, variant: 'default', icon: <Package size={14}/> };
             const open = expanded[order.id];
             
-            const canPay             = order.status === 'pending_payment' && order.payment_url;
+            const canPay             = order.status === 'pending_payment';
             const canCancel          = order.status === 'pending_payment';
             const canCancelCod       = order.status === 'cod_pending' || order.status === 'cod_accepted';
             const canConfirmReceived = order.status === 'shipped';
@@ -531,7 +548,8 @@ const BuyerOrders = () => {
                         <Button
                           size="sm"
                           variant="primary"
-                          onClick={() => window.open(order.payment_url, '_blank')}
+                          isLoading={paying === order.id}
+                          onClick={() => handlePay(order.id)}
                         >
                           Bayar Sekarang
                         </Button>
