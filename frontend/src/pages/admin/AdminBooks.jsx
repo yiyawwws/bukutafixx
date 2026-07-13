@@ -335,7 +335,7 @@ const AdminBooks = () => {
                     </Badge>
                   </td>
                   <td>
-                    <div className="admin-action-buttons">
+                    <div className="admin-action-buttons book-actions">
                       {/* Tombol Lihat Detail — selalu tampil */}
                       <Button
                         variant="primary"

@@ -74,6 +74,20 @@
   align-items: center;
 }
 
+.admin-action-buttons.user-actions {
+  display: grid;
+  grid-template-columns: 120px 95px 38px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-action-buttons.book-actions {
+  display: grid;
+  grid-template-columns: 90px 90px 38px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .admin-table-avatar {
   width: 44px;
   height: 56px;
@@ -144,8 +158,8 @@
 
 /* ─── Document Buttons ────────────────────────────── */
 .doc-buttons {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 95px 105px;
   gap: 0.35rem;
 }
 

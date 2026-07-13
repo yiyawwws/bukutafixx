@@ -250,7 +250,7 @@ const AdminUsers = () => {
                     </div>
                   </td>
                   <td>
-                    <div className="admin-action-buttons">
+                    <div className="admin-action-buttons user-actions">
                       {user.role !== 'admin' && (
                         <Button 
                           variant={user.is_verified ? "outline" : "success"} 
