@@ -96,7 +96,7 @@ const SellerBooks = () => {
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div style={{ width: '250px' }}>
-            <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul..." />
+            <SearchBar className="light" onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul..." />
           </div>
           <Button 
             variant="primary" 
