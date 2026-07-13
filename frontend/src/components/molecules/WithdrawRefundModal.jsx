@@ -9,6 +9,24 @@ import './ReviewModal.css'; // Reusing similar modal styles
 const formatIDR = (val) =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val || 0);
 
+const COMMON_BANKS = [
+  'Bank BCA',
+  'Bank Mandiri',
+  'Bank BNI',
+  'Bank BRI',
+  'Bank Syariah Indonesia (BSI)',
+  'Bank CIMB Niaga',
+  'Bank Permata',
+  'Bank Danamon',
+  'SeaBank',
+  'Bank Jago',
+  'GoPay',
+  'OVO',
+  'DANA',
+  'ShopeePay',
+  'Lainnya'
+];
+
 const WithdrawRefundModal = ({ order, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -119,29 +137,50 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                 </div>
               ) : (
                 <>
-                  <Typography variant="body" style={{ marginBottom: '1rem' }}>
-                    Masukkan rekening bank tujuan untuk menarik dana refund Anda. Seluruh saldo tersedia akan ditarik.
+                  <Typography variant="body" style={{ marginBottom: '1.25rem', color: 'var(--color-text-secondary)' }}>
+                    Masukkan rekening tujuan untuk menarik dana refund Anda. Seluruh saldo tersedia akan ditarik ke rekening ini.
                   </Typography>
 
-                  <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 'bold' }}>Nama Bank</label>
-                    <input
-                      type="text"
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Bank / E-Wallet</label>
+                    <select
                       className="form-input"
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #ddd' }}
-                      placeholder="Contoh: BCA, BNI, Mandiri"
-                      value={form.bank_name}
-                      onChange={e => setForm({ ...form, bank_name: e.target.value })}
+                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
+                      value={COMMON_BANKS.includes(form.bank_name) ? form.bank_name : (form.bank_name ? 'Lainnya' : '')}
+                      onChange={e => {
+                        if (e.target.value === 'Lainnya') {
+                          setForm({ ...form, bank_name: '' });
+                        } else {
+                          setForm({ ...form, bank_name: e.target.value });
+                        }
+                      }}
                       required
-                    />
+                    >
+                      <option value="" disabled>Pilih Bank / E-Wallet</option>
+                      {COMMON_BANKS.map(b => (
+                        <option key={b} value={b}>{b}</option>
+                      ))}
+                    </select>
+                    
+                    {(!COMMON_BANKS.includes(form.bank_name) && form.bank_name !== '' || !COMMON_BANKS.includes(form.bank_name)) && (
+                      <input
+                        type="text"
+                        className="form-input"
+                        style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)', marginTop: '0.75rem' }}
+                        placeholder="Ketik nama bank lainnya..."
+                        value={form.bank_name}
+                        onChange={e => setForm({ ...form, bank_name: e.target.value })}
+                        required
+                      />
+                    )}
                   </div>
                   
-                  <div style={{ marginBottom: '1rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 'bold' }}>Nomor Rekening</label>
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nomor Rekening / No. HP E-Wallet</label>
                     <input
                       type="text"
                       className="form-input"
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #ddd' }}
+                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
                       placeholder="Contoh: 1234567890"
                       value={form.account_number}
                       onChange={e => setForm({ ...form, account_number: e.target.value })}
@@ -149,13 +188,13 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                     />
                   </div>
                   
-                  <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 'bold' }}>Nama Pemilik Rekening</label>
+                  <div style={{ marginBottom: '2rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Pemilik Rekening</label>
                     <input
                       type="text"
                       className="form-input"
-                      style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', border: '1px solid #ddd' }}
-                      placeholder="Sesuai buku tabungan"
+                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
+                      placeholder="Sesuai buku tabungan atau e-wallet"
                       value={form.account_holder_name}
                       onChange={e => setForm({ ...form, account_holder_name: e.target.value })}
                       required
@@ -165,8 +204,9 @@ const WithdrawRefundModal = ({ order, onClose }) => {
               )}
 
               {error && (
-                <div style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: '1rem', textAlign: 'center' }}>
-                  {error}
+                <div style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: '1.25rem', textAlign: 'center', backgroundColor: '#fef2f2', padding: '0.75rem', borderRadius: '8px' }}>
+                  <AlertCircle size={16} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} />
+                  <span style={{ verticalAlign: 'middle' }}>{error}</span>
                 </div>
               )}
 
