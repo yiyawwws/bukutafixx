@@ -59,7 +59,7 @@ const BuyerOrders = () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await orderService.getOrders({ limit: 50 });
+      const res = await orderService.getOrders({ role: 'buyer', limit: 50 });
       if (res.success) {
         setOrders(res.data);
 
@@ -69,7 +69,7 @@ const BuyerOrders = () => {
           Promise.allSettled(pendingOrders.map(o => payService.checkStatus(o.id)))
             .then(() => {
               // Re-fetch quietly to update the UI if any status changed
-              orderService.getOrders({ limit: 50 }).then(r => {
+              orderService.getOrders({ role: 'buyer', limit: 50 }).then(r => {
                 if (r.success) setOrders(r.data);
               });
             });
@@ -318,6 +318,7 @@ const BuyerOrders = () => {
             const statusInfo = statusMap[order.status] || { label: order.status, variant: 'default', icon: <Package size={14}/> };
             const open = expanded[order.id];
             
+            const canPay             = order.status === 'pending_payment' && order.payment_url;
             const canCancel          = order.status === 'pending_payment';
             const canCancelCod       = order.status === 'cod_pending' || order.status === 'cod_accepted';
             const canConfirmReceived = order.status === 'shipped';
@@ -526,16 +527,25 @@ const BuyerOrders = () => {
                     >
                       {open ? <><ChevronUp size={15}/> Sembunyikan</> : <><ChevronDown size={15}/> Lihat Detail</>}
                     </button>
-                    {canCancel && (
-                      <Button
-                        size="sm"
-                        variant="danger"
-                        isLoading={cancelling === order.id}
-                        onClick={() => handleCancel(order.id, false)}
-                      >
-                        Batalkan
-                      </Button>
-                    )}
+                      {canPay && (
+                        <Button
+                          size="sm"
+                          variant="primary"
+                          onClick={() => window.open(order.payment_url, '_blank')}
+                        >
+                          Bayar Sekarang
+                        </Button>
+                      )}
+                      {canCancel && (
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          isLoading={cancelling === order.id}
+                          onClick={() => handleCancel(order.id, false)}
+                        >
+                          Batalkan
+                        </Button>
+                      )}
                     {canCancelCod && (
                       <Button
                         size="sm"

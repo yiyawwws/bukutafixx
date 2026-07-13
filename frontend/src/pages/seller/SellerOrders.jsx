@@ -42,7 +42,7 @@ const SellerOrders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const res = await orderService.getOrders({ limit: 50 });
+      const res = await orderService.getOrders({ role: 'seller', limit: 50 });
       if (res.success) {
         setOrders(res.data);
       } else {

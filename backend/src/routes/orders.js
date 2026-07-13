@@ -18,15 +18,15 @@ function safeInt(val, fallback = 1) {
 // ─── GET /api/orders ─────────────────────────────────────
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const { status, payment_status, page = 1, limit = 10 } = req.query;
+    const { status, payment_status, page = 1, limit = 10, role } = req.query;
     const offset = (safeInt(page, 1) - 1) * safeInt(limit, 10);
 
     let where = 'WHERE 1=1';
     const params = [];
 
-    if (req.user.role === 'admin') {
+    if (req.user.role === 'admin' && role === 'admin') {
       // admin sees all
-    } else if (req.user.active_role === 'seller') {
+    } else if (role === 'seller' || (!role && req.user.active_role === 'seller')) {
       where += ' AND o.id IN (SELECT DISTINCT order_id FROM order_items WHERE seller_id = ?)';
       params.push(req.user.id);
     } else {
