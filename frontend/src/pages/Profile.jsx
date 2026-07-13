@@ -19,10 +19,23 @@ const Profile = () => {
     name:            user?.name || '',
     phone:           user?.phone || '',
     address:         user?.address || '',
+    nim:             user?.nim || '',
+    university:      user?.university || '',
     currentPassword: '',
     newPassword:     '',
     confirmPassword: '',
   });
+  
+  const [ktmForm, setKtmForm] = useState({
+    nim: user?.nim || '',
+    university: user?.university || '',
+  });
+  
+  const [ktmFile, setKtmFile] = useState(null);
+  const [selfieFile, setSelfieFile] = useState(null);
+  const [ktmPreview, setKtmPreview] = useState(null);
+  const [selfiePreview, setSelfiePreview] = useState(null);
+  const [uploadingKtm, setUploadingKtm] = useState(false);
   const [avatarFile, setAvatarFile]   = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [saving, setSaving]           = useState(false);
@@ -46,6 +59,40 @@ const Profile = () => {
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
     setErrorMsg('');
+  };
+
+  const handleKtmSubmit = async (e) => {
+    e.preventDefault();
+    if (!ktmForm.nim || !ktmForm.university || !ktmFile || !selfieFile) {
+      setErrorMsg('Semua data verifikasi wajib diisi.');
+      return;
+    }
+
+    try {
+      setUploadingKtm(true);
+      setErrorMsg('');
+      setSuccessMsg('');
+      const fd = new FormData();
+      fd.append('nim', ktmForm.nim);
+      fd.append('university', ktmForm.university);
+      fd.append('ktm_image', ktmFile);
+      fd.append('selfie_image', selfieFile);
+
+      const res = await api.post('/users/upload-ktm', fd, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      if (res.data.success) {
+        setSuccessMsg(res.data.message);
+        setUser(prev => ({ ...prev, ...res.data.data }));
+      } else {
+        setErrorMsg(res.data.message || 'Gagal mengunggah dokumen.');
+      }
+    } catch (err) {
+      setErrorMsg(err.response?.data?.message || 'Terjadi kesalahan saat upload.');
+    } finally {
+      setUploadingKtm(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -302,6 +349,86 @@ const Profile = () => {
                   </a>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Form Upload KTM (Jika belum diverifikasi dan belum upload) ─────────────────────────── */}
+        {!user?.is_verified && !user?.ktm_url && (
+          <div className="profile-section">
+            <div className="profile-section-title">
+              🎓 Verifikasi Sebagai Penjual (Upload KTM)
+            </div>
+            <Typography variant="small" color="muted" style={{ display: 'block', marginBottom: '1.25rem' }}>
+              Untuk dapat menjual buku, Anda harus memverifikasi bahwa Anda adalah seorang mahasiswa. Data Anda akan ditinjau oleh Admin.
+            </Typography>
+            
+            <div className="profile-grid">
+              <Input
+                label="Nomor Induk Mahasiswa (NIM)"
+                id="profile-ktm-nim"
+                name="nim"
+                value={ktmForm.nim}
+                onChange={e => setKtmForm(prev => ({ ...prev, nim: e.target.value }))}
+                placeholder="Masukkan NIM Anda"
+              />
+              <Input
+                label="Universitas / Perguruan Tinggi"
+                id="profile-ktm-univ"
+                name="university"
+                value={ktmForm.university}
+                onChange={e => setKtmForm(prev => ({ ...prev, university: e.target.value }))}
+                placeholder="Contoh: Universitas Hasanuddin"
+              />
+              
+              <div className="input-group">
+                <label className="input-label">Upload Foto KTM</label>
+                <div style={{ padding: '0.75rem', border: '1px dashed var(--color-border)', borderRadius: '8px', backgroundColor: 'var(--color-surface-50)' }}>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={e => {
+                      const f = e.target.files[0];
+                      if(f) {
+                        setKtmFile(f);
+                        setKtmPreview(URL.createObjectURL(f));
+                      }
+                    }}
+                    style={{ fontSize: '0.85rem', width: '100%' }}
+                  />
+                  {ktmPreview && <img src={ktmPreview} alt="KTM Preview" style={{ marginTop: '0.75rem', maxWidth: '100px', borderRadius: '4px' }} />}
+                </div>
+              </div>
+              
+              <div className="input-group">
+                <label className="input-label">Upload Foto Selfie + KTM</label>
+                <div style={{ padding: '0.75rem', border: '1px dashed var(--color-border)', borderRadius: '8px', backgroundColor: 'var(--color-surface-50)' }}>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={e => {
+                      const f = e.target.files[0];
+                      if(f) {
+                        setSelfieFile(f);
+                        setSelfiePreview(URL.createObjectURL(f));
+                      }
+                    }}
+                    style={{ fontSize: '0.85rem', width: '100%' }}
+                  />
+                  {selfiePreview && <img src={selfiePreview} alt="Selfie Preview" style={{ marginTop: '0.75rem', maxWidth: '100px', borderRadius: '4px' }} />}
+                </div>
+              </div>
+            </div>
+            
+            <div style={{ marginTop: '1.25rem', textAlign: 'right' }}>
+              <Button
+                type="button"
+                variant="success"
+                isLoading={uploadingKtm}
+                onClick={handleKtmSubmit}
+              >
+                Kirim Verifikasi
+              </Button>
             </div>
           </div>
         )}

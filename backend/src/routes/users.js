@@ -6,6 +6,7 @@ const pool = require('../config/database');
 const { verifyToken } = require('../middleware/auth');
 const { requireRole } = require('../middleware/role');
 const uploadAvatar = require('../middleware/uploadAvatar');
+const uploadDocs = require('../middleware/uploadDocs');
 const { saveFileToDB } = require('../utils/fileUpload');
 
 const router = express.Router();
@@ -129,6 +130,49 @@ router.put('/profile', verifyToken, uploadAvatar.single('avatar'),
     }
   }
 );
+
+// ─── POST /api/users/upload-ktm ───────────────────────────
+router.post('/upload-ktm', verifyToken, uploadDocs.fields([
+  { name: 'ktm_image', maxCount: 1 },
+  { name: 'selfie_image', maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const { nim, university } = req.body;
+    
+    if (!nim || !university) {
+      return res.status(400).json({ success: false, message: 'NIM dan Universitas wajib diisi' });
+    }
+    
+    if (!req.files || !req.files.ktm_image || !req.files.selfie_image) {
+      return res.status(400).json({ success: false, message: 'Foto KTM dan Selfie KTM wajib diunggah' });
+    }
+
+    const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [req.user.id]);
+    if (rows.length === 0) return res.status(404).json({ success: false, message: 'User tidak ditemukan' });
+
+    const ktmUrl = await saveFileToDB(req.files.ktm_image[0]);
+    const selfieUrl = await saveFileToDB(req.files.selfie_image[0]);
+
+    if (!ktmUrl || !selfieUrl) {
+      return res.status(500).json({ success: false, message: 'Gagal menyimpan file' });
+    }
+
+    await pool.query(
+      `UPDATE users SET nim = ?, university = ?, ktm_url = ?, selfie_ktm_url = ?, is_verified = FALSE WHERE id = ?`,
+      [nim, university, ktmUrl, selfieUrl, req.user.id]
+    );
+
+    const [updated] = await pool.query(
+      'SELECT id, name, email, phone, address, avatar, role, active_role, nim, university, ktm_url, selfie_ktm_url, is_verified FROM users WHERE id = ?',
+      [req.user.id]
+    );
+
+    res.json({ success: true, message: 'Dokumen KTM berhasil diunggah. Menunggu verifikasi admin.', data: updated[0] });
+  } catch (err) {
+    console.error('[POST /users/upload-ktm]', err.message);
+    res.status(500).json({ success: false, message: 'Server error saat upload KTM' });
+  }
+});
 
 // ─── PUT /api/users/switch-role ───────────────────────────
 router.put('/switch-role', verifyToken, async (req, res) => {
