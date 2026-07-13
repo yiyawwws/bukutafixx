@@ -285,7 +285,7 @@ class DisputeController {
 
       // Ambil dispute
       const [[dispute]] = await connection.query(
-        `SELECT d.*, et.amount AS escrow_amount
+        `SELECT d.*, et.amount AS escrow_amount, et.order_id
          FROM disputes d
          JOIN escrow_transactions et ON d.escrow_id = et.id
          WHERE d.id = ?`,
@@ -336,6 +336,12 @@ class DisputeController {
          SET status = ?, admin_notes = ?, resolved_by = ?, resolved_at = NOW()
          WHERE id = ?`,
         [newDisputeStatus, admin_notes || null, adminId, id]
+      );
+
+      // Update order status
+      await connection.query(
+        `UPDATE orders SET status = ? WHERE id = ?`,
+        [decision === 'release' ? 'completed' : 'refunded', dispute.order_id]
       );
 
       await connection.commit();

@@ -67,9 +67,6 @@ const DashboardLayout = () => {
     return [
       { path: '/buyer/dashboard', icon: <BarChart2 size={19} />, label: 'Dashboard' },
       { path: '/buyer/orders', icon: <ShoppingBag size={19} />, label: 'Pesanan Saya' },
-      { path: '/buyer/balance', icon: <Wallet size={19} />, label: 'Saldo & Penarikan' },
-      { path: '/buyer/bank-account', icon: <CreditCard size={19} />, label: 'Rekening Bank' },
-      { path: '/buyer/withdrawal', icon: <ArrowDownCircle size={19} />, label: 'Tarik Dana' },
       { path: '/profile', icon: <User size={19} />, label: 'Profil Saya' },
     ];
   };

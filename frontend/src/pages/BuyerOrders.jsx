@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { reviewService } from '../services/reviewService';
 import ReviewModal from '../components/molecules/ReviewModal';
+import WithdrawRefundModal from '../components/molecules/WithdrawRefundModal';
 import SearchBar from '../components/molecules/SearchBar';
 import './BuyerOrders.css';
 
@@ -51,6 +52,7 @@ const BuyerOrders = () => {
   const [reviewOrder, setReviewOrder]   = useState(null);
   const [reviews, setReviews]           = useState({});
   const [searchQuery, setSearchQuery]   = useState('');
+  const [withdrawRefundOrder, setWithdrawRefundOrder] = useState(null);
 
   // Confirm dialog state
   const [confirmDialog, setConfirmDialog] = useState(null); // { type, orderId, isCod? }
@@ -251,6 +253,14 @@ const BuyerOrders = () => {
             setReviewOrder(null);
             toast.success('Ulasan berhasil dikirim!');
           }}
+        />
+      )}
+
+      {/* Withdraw Refund Modal */}
+      {withdrawRefundOrder && (
+        <WithdrawRefundModal
+          order={withdrawRefundOrder}
+          onClose={() => setWithdrawRefundOrder(null)}
         />
       )}
 
@@ -596,6 +606,15 @@ const BuyerOrders = () => {
                         onClick={() => setDisputeOrder(order)}
                       >
                         Komplain
+                      </Button>
+                    )}
+                    {order.status === 'refunded' && (
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        onClick={() => setWithdrawRefundOrder(order)}
+                      >
+                        Tarik Dana Refund
                       </Button>
                     )}
                   </div>

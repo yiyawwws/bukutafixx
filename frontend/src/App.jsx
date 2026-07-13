@@ -19,9 +19,6 @@ import BookDetail from './pages/BookDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import BuyerOrders from './pages/BuyerOrders';
-import BuyerBankAccount from './pages/buyer/BuyerBankAccount';
-import BuyerBalance from './pages/buyer/BuyerBalance';
-import BuyerWithdrawal from './pages/buyer/BuyerWithdrawal';
 import Profile from './pages/Profile';
 
 // Admin Pages
@@ -66,9 +63,6 @@ const App = () => {
                 <Route element={<DashboardLayout />}>
                   <Route path="/buyer/dashboard" element={<Dashboard />} />
                   <Route path="/buyer/orders" element={<BuyerOrders />} />
-                  <Route path="/buyer/bank-account" element={<BuyerBankAccount />} />
-                  <Route path="/buyer/balance" element={<BuyerBalance />} />
-                  <Route path="/buyer/withdrawal" element={<BuyerWithdrawal />} />
                   <Route path="/seller/dashboard" element={<Dashboard />} />
                   <Route path="/seller/books" element={<SellerBooks />} />
                   <Route path="/seller/books/add" element={<AddBook />} />
