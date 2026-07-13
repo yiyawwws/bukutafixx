@@ -36,17 +36,13 @@ export const bookService = {
 
   // POST /api/books — tambah buku (seller, multipart)
   addBook: async (formData) => {
-    const response = await api.post('/books', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
+    const response = await api.post('/books', formData);
     return response.data;
   },
 
   // PUT /api/books/:id — update buku
   updateBook: async (id, formData) => {
-    const response = await api.put(`/books/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
+    const response = await api.put(`/books/${id}`, formData);
     return response.data;
   },
 

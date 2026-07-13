@@ -32,9 +32,7 @@ export const withdrawalService = {
   adminReject: (id, admin_note) => api.put(`/withdrawal/admin/requests/${id}/reject`, { admin_note }).then(r => r.data),
 
   adminMarkPaid: (id, formData) =>
-    api.put(`/withdrawal/admin/requests/${id}/paid`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }).then(r => r.data),
+    api.put(`/withdrawal/admin/requests/${id}/paid`, formData).then(r => r.data),
 };
 
 export default withdrawalService;

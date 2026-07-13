@@ -8,9 +8,7 @@ export const disputeService = {
     formData.append('reason', reason);
     if (description) formData.append('description', description);
     if (videoFile) formData.append('unboxing_video', videoFile);
-    const response = await api.post('/dispute/report', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const response = await api.post('/dispute/report', formData);
     return response.data;
   },
 
