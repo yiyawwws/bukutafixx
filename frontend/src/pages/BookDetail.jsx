@@ -148,6 +148,12 @@ const BookDetail = () => {
             oleh {book.author}
           </Typography>
 
+          {book.seller_name && (
+            <Typography variant="body" className="mt-2" style={{ color: 'var(--color-primary)' }}>
+              Penjual: <strong>{book.seller_name}</strong>
+            </Typography>
+          )}
+
           {/* Rating */}
           {book.review_count > 0 ? (
             <div className="book-detail-rating">

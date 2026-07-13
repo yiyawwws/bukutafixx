@@ -21,7 +21,7 @@ const formatPrice = (price) =>
   }).format(price);
 
 const ProductCard = ({ book }) => {
-  const { id, title, author, price, cover_url, condition, category_name, avg_rating, review_count } = book;
+  const { id, title, author, price, cover_url, condition, category_name, avg_rating, review_count, seller_name } = book;
   const { addToCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const toast = useToast();
@@ -90,6 +90,11 @@ const ProductCard = ({ book }) => {
         <Typography variant="small" color="muted" className="product-card-author">
           {author}
         </Typography>
+        {seller_name && (
+          <Typography variant="caption" color="muted" className="product-card-seller">
+            Penjual: {seller_name}
+          </Typography>
+        )}
 
         <div className="product-card-footer">
           <Typography variant="h5" weight="bold" className="product-card-price">
