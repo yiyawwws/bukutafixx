@@ -143,7 +143,7 @@ class DisputeController {
 
       // Update status order menjadi complaint
       await connection.query(
-        `UPDATE orders SET status = 'complaint', delivery_status = 'complaint' WHERE id = ?`,
+        `UPDATE orders SET status = 'complaint' WHERE id = ?`,
         [order_id]
       );
 
@@ -157,7 +157,7 @@ class DisputeController {
     } catch (err) {
       await connection.rollback();
       console.error('ReportDispute Error:', err);
-      res.status(500).json({ success: false, message: 'Server error' });
+      res.status(500).json({ success: false, message: 'Server error', error: err.message, stack: err.stack });
     } finally {
       connection.release();
     }

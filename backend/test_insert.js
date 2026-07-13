@@ -1,0 +1,1 @@
+require('dotenv').config(); const pool = require('./src/config/database'); pool.query('INSERT INTO disputes (escrow_id, order_id, buyer_id, seller_id, reason, unboxing_video_url, status) VALUES (1, 1, 1, 1, \'Test\', \'url\', \'open\')').then(() => { console.log('success'); process.exit(0); }).catch(e => { console.log('err:', e.message); process.exit(1); })
