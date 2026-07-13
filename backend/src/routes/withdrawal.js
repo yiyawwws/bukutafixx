@@ -8,38 +8,38 @@ const router = express.Router();
 
 // ─── Seller: Bank Accounts ────────────────────────────────────────────────────
 router.get('/bank-accounts',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.getMyBankAccounts
 );
 
 router.post('/bank-accounts',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.addBankAccount
 );
 
 router.put('/bank-accounts/:id',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.updateBankAccount
 );
 
 router.put('/bank-accounts/:id/primary',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.setPrimaryBankAccount
 );
 
 // ─── Seller: Wallet & Withdrawals ─────────────────────────────────────────────
 router.get('/wallet',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.getMyWallet
 );
 
 router.post('/request',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.requestWithdrawal
 );
 
 router.get('/history',
-  verifyToken, requireActiveRole('seller'),
+  verifyToken,
   W.getMyWithdrawals
 );
 

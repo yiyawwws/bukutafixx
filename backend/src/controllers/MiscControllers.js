@@ -317,11 +317,12 @@ class DisputeController {
         await SellerWalletModel.credit(connection, sellerId, amount);
         newDisputeStatus = 'resolved_release';
       } else {
-        // Kembalikan dana ke pembeli (refund)
+        // Kembalikan dana ke pembeli (refund) dengan memasukkannya ke dompet pembeli
         escrowResult = await EscrowTransactionModel.refund(connection, escrowId);
+        const buyerId = dispute.buyer_id;
+        await SellerWalletModel.createIfNotExists(connection, buyerId);
+        await SellerWalletModel.credit(connection, buyerId, amount);
         newDisputeStatus = 'resolved_refund';
-        // Catatan: refund aktual ke payment gateway ditangani secara manual
-        // atau bisa ditambahkan integrasi Midtrans Refund API di sini
       }
 
       if (!escrowResult) {
@@ -343,7 +344,7 @@ class DisputeController {
         success: true,
         message: decision === 'release'
           ? 'Dana berhasil dicairkan ke wallet penjual.'
-          : 'Dana berhasil dikembalikan (refund). Proses refund ke pembeli sedang berjalan.',
+          : 'Dana berhasil dikembalikan (refund) ke Saldo pembeli.',
         data: { dispute_id: parseInt(id), decision, new_status: newDisputeStatus }
       });
     } catch (err) {

@@ -23,7 +23,7 @@ const statusMap = {
   rejected: { label: 'Ditolak',       variant: 'error',   icon: <XCircle size={13} /> },
 };
 
-const TABS = ['Permintaan Penarikan', 'Rekening Bank Seller'];
+const TABS = ['Permintaan Penarikan', 'Rekening Bank User'];
 
 const AdminWithdrawals = () => {
   const toast = useToast();
@@ -239,7 +239,7 @@ const AdminWithdrawals = () => {
       <div className="admin-page-header">
         <div>
           <Typography variant="h3" weight="bold">Manajemen Penarikan</Typography>
-          <Typography variant="body" color="muted">Kelola permintaan penarikan dana dan rekening bank seller</Typography>
+          <Typography variant="body" color="muted">Kelola permintaan penarikan dana dan rekening bank user</Typography>
         </div>
       </div>
 
@@ -306,7 +306,7 @@ const AdminWithdrawals = () => {
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Seller</th>
+                        <th>User</th>
                         <th>Jumlah</th>
                         <th>Rekening Bank</th>
                         <th>Tanggal</th>
@@ -440,7 +440,7 @@ const AdminWithdrawals = () => {
               <div className="admin-empty">
                 <Building2 size={40} color="var(--color-surface-400)" />
                 <Typography variant="h5" className="mt-4">Belum ada rekening</Typography>
-                <Typography color="muted">Belum ada seller yang menambahkan rekening bank.</Typography>
+                <Typography color="muted">Belum ada user yang menambahkan rekening bank.</Typography>
               </div>
             ) : (
               <>
@@ -448,7 +448,7 @@ const AdminWithdrawals = () => {
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Seller</th>
+                        <th>User</th>
                         <th>Bank</th>
                         <th>Nomor Rekening</th>
                         <th>Pemilik</th>
