@@ -274,7 +274,7 @@ exports.adminGetBankAccounts = async (req, res) => {
 
     const [rows] = await pool.query(
       `SELECT sba.*,
-              u.name AS seller_name, u.email AS seller_email
+              u.name AS seller_name, u.email AS seller_email, u.role
        FROM seller_bank_accounts sba
        JOIN users u ON sba.seller_id = u.id
        ${where}
@@ -346,7 +346,7 @@ exports.adminGetWithdrawals = async (req, res) => {
 
     const [rows] = await pool.query(
       `SELECT wr.*,
-              u.name AS seller_name, u.email AS seller_email,
+              u.name AS seller_name, u.email AS seller_email, u.role,
               sba.bank_name, sba.account_number, sba.account_holder_name, sba.is_verified AS bank_verified
        FROM withdrawal_requests wr
        JOIN users u ON wr.seller_id = u.id

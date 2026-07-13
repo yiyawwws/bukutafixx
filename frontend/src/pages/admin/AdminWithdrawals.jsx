@@ -152,7 +152,7 @@ const AdminWithdrawals = () => {
         open={!!approveDialog}
         variant="success"
         title="Setujui Penarikan?"
-        message="Dana akan diproses dan diteruskan ke rekening seller. Pastikan rekening telah terverifikasi."
+        message="Dana akan diproses dan diteruskan ke rekening user. Pastikan rekening telah terverifikasi (kecuali untuk refund pembeli)."
         confirmLabel="Ya, Setujui"
         cancelLabel="Batal"
         isLoading={approveLoading}
@@ -340,9 +340,11 @@ const AdminWithdrawals = () => {
                                 <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
                                   <User size={11} style={{ marginRight: 3, verticalAlign: 'middle' }} />{wr.account_holder_name}
                                 </span>
-                                {wr.bank_verified
-                                  ? <span style={{ fontSize: '0.7rem', color: '#22c55e' }}>✓ Terverifikasi</span>
-                                  : <span style={{ fontSize: '0.7rem', color: '#f59e0b' }}>⚠ Belum Diverifikasi</span>
+                                {wr.role === 'buyer'
+                                  ? <span style={{ fontSize: '0.7rem', color: '#22c55e' }}>✓ Akun Pembeli (Refund)</span>
+                                  : wr.bank_verified
+                                    ? <span style={{ fontSize: '0.7rem', color: '#22c55e' }}>✓ Terverifikasi</span>
+                                    : <span style={{ fontSize: '0.7rem', color: '#f59e0b' }}>⚠ Belum Diverifikasi</span>
                                 }
                               </div>
                             </td>
@@ -469,9 +471,11 @@ const AdminWithdrawals = () => {
                           <td><Typography variant="small">{acc.account_holder_name}</Typography></td>
                           <td>{acc.is_primary ? <Badge variant="primary">Utama</Badge> : <Typography variant="xs" color="muted">—</Typography>}</td>
                           <td>
-                            {acc.is_verified
-                              ? <Badge variant="success"><CheckCircle size={11} style={{ marginRight: 3 }} />Terverifikasi</Badge>
-                              : <Badge variant="warning"><Clock size={11} style={{ marginRight: 3 }} />Belum</Badge>
+                            {acc.role === 'buyer'
+                              ? <Badge variant="success">Refund Pembeli</Badge>
+                              : acc.is_verified
+                                ? <Badge variant="success"><CheckCircle size={11} style={{ marginRight: 3 }} />Terverifikasi</Badge>
+                                : <Badge variant="warning"><Clock size={11} style={{ marginRight: 3 }} />Belum</Badge>
                             }
                             {acc.verified_at && (
                               <Typography variant="xs" color="muted" style={{ marginTop: 3 }}>
@@ -480,13 +484,15 @@ const AdminWithdrawals = () => {
                             )}
                           </td>
                           <td>
-                            <button
-                              onClick={() => handleVerify(acc.id)}
-                              style={actionBtn(acc.is_verified ? '#6b7280' : '#16a34a')}
-                              id={`btn-verify-${acc.id}`}
-                            >
-                              {acc.is_verified ? <><XCircle size={12} /> Batalkan</> : <><CheckCircle size={12} /> Verifikasi</>}
-                            </button>
+                            {acc.role !== 'buyer' && (
+                              <button
+                                onClick={() => handleVerify(acc.id)}
+                                style={actionBtn(acc.is_verified ? '#6b7280' : '#16a34a')}
+                                id={`btn-verify-${acc.id}`}
+                              >
+                                {acc.is_verified ? <><XCircle size={12} /> Batalkan</> : <><CheckCircle size={12} /> Verifikasi</>}
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
