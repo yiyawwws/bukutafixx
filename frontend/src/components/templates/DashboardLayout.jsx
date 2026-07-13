@@ -119,10 +119,12 @@ const DashboardLayout = () => {
           <span className="dashboard-nav-icon"><Home size={19} /></span>
           <span>Halaman Utama</span>
         </Link>
-        <Link to="/cart" className="dashboard-nav-item">
-          <span className="dashboard-nav-icon"><ShoppingBag size={19} /></span>
-          <span>Keranjang Belanja</span>
-        </Link>
+        {(!user || user.active_role !== 'seller') && (
+          <Link to="/cart" className="dashboard-nav-item">
+            <span className="dashboard-nav-icon"><ShoppingBag size={19} /></span>
+            <span>Keranjang Belanja</span>
+          </Link>
+        )}
       </nav>
 
       {/* Bottom Actions */}

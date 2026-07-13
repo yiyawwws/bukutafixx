@@ -71,6 +71,11 @@ const AddBook = () => {
       return;
     }
 
+    if (images.length !== 5) {
+      toast.warning('Sesuai ketentuan, Anda WAJIB mengunggah tepat 5 foto buku (untuk cek kelayakan)!');
+      return;
+    }
+
     const data = new FormData();
     Object.keys(formData).forEach(key => {
       data.append(key, formData[key]);
@@ -207,7 +212,7 @@ const AddBook = () => {
 
           <div>
             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem', color: 'var(--color-text-main)' }}>
-              Foto Buku (Maks. 5) *
+              Foto Buku (Wajib 5 Foto) *
             </label>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               {imagePreview.map((src, index) => (

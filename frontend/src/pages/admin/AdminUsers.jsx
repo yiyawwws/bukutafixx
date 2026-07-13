@@ -5,6 +5,7 @@ import Badge from '../../components/atoms/Badge';
 import Button from '../../components/atoms/Button';
 import Spinner from '../../components/atoms/Spinner';
 import ConfirmDialog from '../../components/atoms/ConfirmDialog';
+import SearchBar from '../../components/molecules/SearchBar';
 import { useToast } from '../../context/ToastContext';
 import { CheckCircle, XCircle, Trash2, Ban, Eye, X, ImageOff } from 'lucide-react';
 import './AdminPages.css';
@@ -75,8 +76,9 @@ const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [preview, setPreview] = useState(null);
-  const [verifyDialog, setVerifyDialog] = useState(null);
+  const [verifyDialog, setVerifyDialog] = useState(null); // { id, isVerified }
   const [banDialog, setBanDialog] = useState(null); // { id, isBanned }
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
@@ -84,7 +86,7 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await adminService.getUsers({ limit: 50 });
+      const res = await adminService.getUsers({ search: searchQuery || undefined, limit: 50 });
       if (res.success) setUsers(res.data);
     } catch (err) {
       setError('Gagal memuat data user');
@@ -95,15 +97,15 @@ const AdminUsers = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [searchQuery]);
 
-  const handleVerify = (id) => setVerifyDialog(id);
+  const handleVerify = (id, isVerified) => setVerifyDialog({ id, isVerified });
 
   const executeVerify = async () => {
     setActionLoading(true);
     try {
-      await adminService.verifyUserKtm(verifyDialog);
-      toast.success('KTM user berhasil diverifikasi.');
+      await adminService.verifyUserKtm(verifyDialog.id);
+      toast.success(verifyDialog.isVerified ? 'Verifikasi KTM dibatalkan.' : 'KTM user berhasil diverifikasi.');
       fetchUsers();
     } catch (err) {
       toast.error('Gagal memverifikasi user');
@@ -151,10 +153,10 @@ const AdminUsers = () => {
 
       <ConfirmDialog
         open={!!verifyDialog}
-        variant="success"
-        title="Verifikasi KTM User?"
-        message="KTM user ini akan diverifikasi dan mereka mendapatkan akses penuh ke marketplace."
-        confirmLabel="Ya, Verifikasi"
+        variant={verifyDialog?.isVerified ? "warning" : "success"}
+        title={verifyDialog?.isVerified ? "Batal Verifikasi KTM?" : "Verifikasi KTM User?"}
+        message={verifyDialog?.isVerified ? "Status verifikasi user ini akan dicabut." : "KTM user ini akan diverifikasi dan mereka mendapatkan akses penuh ke marketplace."}
+        confirmLabel={verifyDialog?.isVerified ? "Ya, Cabut Verifikasi" : "Ya, Verifikasi"}
         cancelLabel="Batal"
         isLoading={actionLoading}
         onConfirm={executeVerify}
@@ -191,6 +193,9 @@ const AdminUsers = () => {
         <div>
           <Typography variant="h4" weight="bold">Manajemen User</Typography>
           <Typography variant="small" color="muted">Kelola akun, verifikasi KTM, dan blokir pengguna bermasalah.</Typography>
+        </div>
+        <div style={{ width: '300px' }}>
+          <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari nama atau email..." />
         </div>
       </div>
 
@@ -246,9 +251,15 @@ const AdminUsers = () => {
                   </td>
                   <td>
                     <div className="admin-action-buttons">
-                      {!user.is_verified && user.ktm_url && (
-                        <Button variant="success" size="sm" onClick={() => handleVerify(user.id)} title="Verifikasi KTM">
-                          <CheckCircle size={14} /> Verifikasi
+                      {user.role !== 'admin' && (
+                        <Button 
+                          variant={user.is_verified ? "outline" : "success"} 
+                          size="sm" 
+                          onClick={() => handleVerify(user.id, user.is_verified)} 
+                          title={user.is_verified ? "Batal Verifikasi" : "Verifikasi Manual"}
+                        >
+                          {user.is_verified ? <XCircle size={14} /> : <CheckCircle size={14} />} 
+                          {user.is_verified ? "Batal Verifikasi" : "Verifikasi"}
                         </Button>
                       )}
                       {user.role !== 'admin' && (

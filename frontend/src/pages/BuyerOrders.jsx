@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { reviewService } from '../services/reviewService';
 import ReviewModal from '../components/molecules/ReviewModal';
+import SearchBar from '../components/molecules/SearchBar';
 import './BuyerOrders.css';
 
 const statusMap = {
@@ -48,6 +49,7 @@ const BuyerOrders = () => {
   const [shipments, setShipments]       = useState({});
   const [reviewOrder, setReviewOrder]   = useState(null);
   const [reviews, setReviews]           = useState({});
+  const [searchQuery, setSearchQuery]   = useState('');
 
   // Confirm dialog state
   const [confirmDialog, setConfirmDialog] = useState(null); // { type, orderId, isCod? }
@@ -280,9 +282,14 @@ const BuyerOrders = () => {
             Total {orders.length} pesanan
           </Typography>
         </div>
-        <Button onClick={fetchOrders} variant="outline" size="sm" leftIcon={<RefreshCw size={15}/>}>
-          Refresh
-        </Button>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ width: '250px' }}>
+            <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari ID Pesanan / Buku..." />
+          </div>
+          <Button onClick={fetchOrders} variant="outline" size="sm" leftIcon={<RefreshCw size={15}/>}>
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Empty state */}
@@ -299,7 +306,15 @@ const BuyerOrders = () => {
         </div>
       ) : (
         <div className="buyer-orders-list">
-          {orders.map(order => {
+          {orders.filter(o => {
+            if (!searchQuery) return true;
+            const q = searchQuery.toLowerCase();
+            return (
+              o.id.toString().includes(q) ||
+              o.items?.some(i => i.title?.toLowerCase().includes(q)) ||
+              o.items?.some(i => i.seller_name?.toLowerCase().includes(q))
+            );
+          }).map(order => {
             const statusInfo = statusMap[order.status] || { label: order.status, variant: 'default', icon: <Package size={14}/> };
             const open = expanded[order.id];
             

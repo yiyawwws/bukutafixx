@@ -141,6 +141,12 @@ class DisputeController {
         disputeIds.push(dispResult.insertId);
       }
 
+      // Update status order menjadi complaint
+      await connection.query(
+        `UPDATE orders SET status = 'complaint', delivery_status = 'complaint' WHERE id = ?`,
+        [order_id]
+      );
+
       await connection.commit();
 
       res.status(201).json({

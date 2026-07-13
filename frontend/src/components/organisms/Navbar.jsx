@@ -63,12 +63,14 @@ const Navbar = () => {
           <div className="navbar-actions">
             {user ? (
               <>
-                <Link to="/cart" className="navbar-icon-btn" aria-label="Keranjang">
-                  <ShoppingCart size={20} color="rgba(255,255,255,0.9)" />
-                  {cart.length > 0 && (
-                    <span className="navbar-badge">{cart.length > 9 ? '9+' : cart.length}</span>
-                  )}
-                </Link>
+                {user.active_role !== 'seller' && (
+                  <Link to="/cart" className="navbar-icon-btn" aria-label="Keranjang">
+                    <ShoppingCart size={20} color="rgba(255,255,255,0.9)" />
+                    {cart.length > 0 && (
+                      <span className="navbar-badge">{cart.length > 9 ? '9+' : cart.length}</span>
+                    )}
+                  </Link>
+                )}
 
                 <Link to={getDashboardLink()} className="navbar-icon-btn" aria-label="Dashboard">
                   <LayoutDashboard size={20} color="rgba(255,255,255,0.9)" />
@@ -181,11 +183,13 @@ const Navbar = () => {
                 <Link to="/" className="navbar-mobile-link" onClick={closeMobile}>
                   <Home size={17} /> <span>Beranda</span>
                 </Link>
-                <Link to="/cart" className="navbar-mobile-link" onClick={closeMobile}>
-                  <ShoppingCart size={17} />
-                  <span>Keranjang</span>
-                  {cart.length > 0 && <span className="navbar-mobile-badge">{cart.length}</span>}
-                </Link>
+                {user.active_role !== 'seller' && (
+                  <Link to="/cart" className="navbar-mobile-link" onClick={closeMobile}>
+                    <ShoppingCart size={17} />
+                    <span>Keranjang</span>
+                    {cart.length > 0 && <span className="navbar-mobile-badge">{cart.length}</span>}
+                  </Link>
+                )}
                 <Link to={getDashboardLink()} className="navbar-mobile-link" onClick={closeMobile}>
                   <LayoutDashboard size={17} /> <span>Dashboard</span>
                 </Link>

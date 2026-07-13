@@ -6,6 +6,7 @@ import Badge from '../../components/atoms/Badge';
 import Button from '../../components/atoms/Button';
 import Spinner from '../../components/atoms/Spinner';
 import ConfirmDialog from '../../components/atoms/ConfirmDialog';
+import SearchBar from '../../components/molecules/SearchBar';
 import { useToast } from '../../context/ToastContext';
 import { CheckCircle, XCircle, Trash2, Eye, X, BookOpen, Package, Tag, User, Star } from 'lucide-react';
 import './AdminPages.css';
@@ -172,6 +173,7 @@ const AdminBooks = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [previewBookId, setPreviewBookId] = useState(null);
   const [approvalDialog, setApprovalDialog] = useState(null); // { id, isApproved }
@@ -182,7 +184,7 @@ const AdminBooks = () => {
   const fetchBooks = async () => {
     try {
       setLoading(true);
-      const res = await adminService.getBooks({ limit: 50 });
+      const res = await adminService.getBooks({ search: searchQuery || undefined, limit: 50 });
       if (res.success) setBooks(res.data);
     } catch (err) {
       setError('Gagal memuat data buku');
@@ -193,7 +195,7 @@ const AdminBooks = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [searchQuery]);
 
   const handleApproval = (id, isApproved) => {
     setApprovalDialog({ id, isApproved });
@@ -283,6 +285,9 @@ const AdminBooks = () => {
         <div>
           <Typography variant="h4" weight="bold">Manajemen Buku</Typography>
           <Typography variant="small" color="muted">Tinjau dan setujui buku baru yang diposting oleh penjual.</Typography>
+        </div>
+        <div style={{ width: '300px' }}>
+          <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul atau penulis..." />
         </div>
       </div>
 

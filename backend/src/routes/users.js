@@ -222,6 +222,7 @@ router.put('/:id/verify', verifyToken, requireRole('admin'), async (req, res) =>
     // Jika diverifikasi, upgrade role ke seller jika masih buyer
     if (newStatus && rows[0].role === 'buyer') {
       await pool.query('UPDATE users SET is_verified = ?, role = ?, active_role = ? WHERE id = ?', [newStatus, 'seller', 'buyer', req.params.id]);
+      await pool.query('INSERT IGNORE INTO seller_wallets (seller_id) VALUES (?)', [req.params.id]);
     } else {
       await pool.query('UPDATE users SET is_verified = ? WHERE id = ?', [newStatus, req.params.id]);
     }

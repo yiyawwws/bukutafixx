@@ -6,6 +6,7 @@ import Badge from '../../components/atoms/Badge';
 import Button from '../../components/atoms/Button';
 import Spinner from '../../components/atoms/Spinner';
 import ConfirmDialog from '../../components/atoms/ConfirmDialog';
+import SearchBar from '../../components/molecules/SearchBar';
 import { useToast } from '../../context/ToastContext';
 import { Book, Plus, Edit, Trash2 } from 'lucide-react';
 import '../admin/AdminPages.css';
@@ -15,6 +16,7 @@ const SellerBooks = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -22,7 +24,7 @@ const SellerBooks = () => {
   const fetchBooks = async () => {
     try {
       setLoading(true);
-      const res = await bookService.getSellerBooks({ limit: 100 });
+      const res = await bookService.getSellerBooks({ search: searchQuery || undefined, limit: 100 });
       if (res.success) {
         setBooks(res.data);
       } else {
@@ -37,7 +39,7 @@ const SellerBooks = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [searchQuery]);
 
   const executeDelete = async () => {
     setDeleteLoading(true);
@@ -92,13 +94,18 @@ const SellerBooks = () => {
           <Typography variant="h3" weight="bold">Buku Saya</Typography>
           <Typography variant="body" color="muted">Kelola koleksi buku yang Anda jual</Typography>
         </div>
-        <Button 
-          variant="primary" 
-          leftIcon={<Plus size={18} />} 
-          onClick={() => navigate('/seller/books/add')}
-        >
-          Tambah Buku
-        </Button>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ width: '250px' }}>
+            <SearchBar onSearch={(q) => setSearchQuery(q)} placeholder="Cari judul..." />
+          </div>
+          <Button 
+            variant="primary" 
+            leftIcon={<Plus size={18} />} 
+            onClick={() => navigate('/seller/books/add')}
+          >
+            Tambah Buku
+          </Button>
+        </div>
       </div>
 
       <div className="admin-card">

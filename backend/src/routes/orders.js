@@ -411,7 +411,7 @@ router.put('/:id/cancel', verifyToken, async (req, res) => {
       }
     }
 
-    await conn.query(`UPDATE orders SET delivery_status = 'cancelled', payment_status = 'failed' WHERE id = ?`, [orderId]);
+    await conn.query(`UPDATE orders SET status = 'cancelled', delivery_status = 'cancelled', payment_status = 'failed' WHERE id = ?`, [orderId]);
 
     await conn.commit();
     res.json({ success: true, message: 'Order berhasil dibatalkan dan stok dikembalikan' });
