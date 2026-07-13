@@ -102,7 +102,7 @@ const WithdrawRefundModal = ({ order, onClose }) => {
           <button className="review-modal-close" onClick={onClose}><X size={20} /></button>
         </div>
 
-        <div className="review-modal-body">
+        <div className="review-modal-form">
           {loading ? (
             <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
               <Spinner size="md" color="primary" />
@@ -120,13 +120,13 @@ const WithdrawRefundModal = ({ order, onClose }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                <div style={{ background: '#22c55e', padding: '0.75rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Banknote size={24} color="#ffffff" />
+              <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '0.75rem' }}>
+                <div style={{ background: '#22c55e', padding: '0.75rem', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Banknote size={28} color="#ffffff" />
                 </div>
                 <div>
-                  <Typography variant="small" color="muted" style={{ display: 'block', marginBottom: '0.25rem' }}>Nominal Refund Pesanan Ini</Typography>
-                  <Typography variant="h3" weight="bold" style={{ color: '#22c55e', margin: 0, lineHeight: 1 }}>
+                  <Typography variant="small" color="muted" style={{ display: 'block', marginBottom: '0.5rem' }}>Nominal Refund Pesanan Ini</Typography>
+                  <Typography variant="h2" weight="bold" style={{ color: '#22c55e', margin: 0, lineHeight: 1 }}>
                     {formatIDR(order?.total_amount || 0)}
                   </Typography>
                 </div>
@@ -139,8 +139,9 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                 </div>
               ) : (
                 <>
-                  <Typography variant="body" style={{ marginBottom: '1.5rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
-                    Silakan lengkapi detail rekening tujuan Anda di bawah ini. Dana sebesar <strong>{formatIDR(order?.total_amount || 0)}</strong> akan ditarik ke rekening tersebut.
+                  <Typography variant="body" style={{ marginBottom: '1.75rem', color: 'var(--color-text-secondary)', lineHeight: 1.5, textAlign: 'center' }}>
+                    Silakan lengkapi detail rekening tujuan Anda di bawah ini.<br/>
+                    Dana sebesar <strong>{formatIDR(order?.total_amount || 0)}</strong> akan ditarik ke rekening tersebut.
                   </Typography>
 
                   <div style={{ marginBottom: '1.5rem' }}>
