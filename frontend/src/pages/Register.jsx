@@ -82,11 +82,11 @@ const Register = () => {
 
       <form onSubmit={handleSubmit} className="auth-form-fields">
         <div className="auth-form-row">
-          <FormField label="Nama Lengkap" name="name" value={formData.name} onChange={handleChange} placeholder="dlan" required />
-          <FormField label="NIM" name="nim" value={formData.nim} onChange={handleChange} placeholder="123456789" required />
+          <FormField label="Nama Lengkap" name="name" value={formData.name} onChange={handleChange} placeholder="Contoh: Andi" required />
+          <FormField label="NIM" name="nim" value={formData.nim} onChange={handleChange} placeholder="Contoh: 123456789" required />
         </div>
 
-        <FormField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="dlank@email.com" required />
+        <FormField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Contoh: andi@gmail.com" required />
 
         <div style={{ position: 'relative' }}>
           <FormField
@@ -95,7 +95,7 @@ const Register = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Min. 8 karakter"
+            placeholder="Minimal 6 karakter"
             required
           />
           <button type="button" className="auth-password-toggle" onClick={() => setShowPassword(!showPassword)}>
@@ -103,8 +103,8 @@ const Register = () => {
           </button>
         </div>
 
-        <FormField label="Universitas" name="university" value={formData.university} onChange={handleChange} placeholder="Universitas Islam Negeri Alauddin Makassar" required />
-        <FormField label="No. Handphone (WhatsApp)" name="phone" value={formData.phone} onChange={handleChange} placeholder="0812xxxx" />
+        <FormField label="Universitas" name="university" value={formData.university} onChange={handleChange} placeholder="Contoh: Universitas Hasanuddin" required />
+        <FormField label="No. Handphone (WhatsApp)" name="phone" value={formData.phone} onChange={handleChange} placeholder="Contoh: 081234567890" />
 
         {/* File uploads */}
         <div className="auth-upload-section">
