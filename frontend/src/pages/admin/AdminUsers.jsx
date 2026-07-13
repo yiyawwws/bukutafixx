@@ -259,7 +259,7 @@ const AdminUsers = () => {
                           title={user.is_verified ? "Batal Verifikasi" : "Verifikasi Manual"}
                         >
                           {user.is_verified ? <XCircle size={14} /> : <CheckCircle size={14} />} 
-                          {user.is_verified ? "Batal Verifikasi" : "Verifikasi"}
+                          {user.is_verified ? "Batal Verif" : "Verifikasi"}
                         </Button>
                       )}
                       {user.role !== 'admin' && (

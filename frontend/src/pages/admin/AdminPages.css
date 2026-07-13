@@ -70,7 +70,31 @@
 .admin-action-buttons {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.admin-table-avatar {
+  width: 44px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-surface-200);
+}
+
+.admin-table-avatar-fallback {
+  width: 44px;
+  height: 56px;
+  background-color: var(--color-surface-200);
+  color: var(--color-text-muted);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--color-surface-200);
 }
 
 /* Pagination container if needed */
@@ -456,4 +480,11 @@
 .book-dm-btn--reject {
   background: #d97706;
   color: #fff;
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  align-items: center;
 }
