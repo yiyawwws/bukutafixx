@@ -6,22 +6,15 @@ import ProductCard from '../components/molecules/ProductCard';
 import SearchBar from '../components/molecules/SearchBar';
 import Spinner from '../components/atoms/Spinner';
 import { bookService } from '../services/bookService';
+import api from '../services/api';
 import './Home.css';
 
-const CATEGORIES = [
-  { label: 'Semua', slug: '' },
-  { label: 'Teknik', slug: 'teknik' },
-  { label: 'Ekonomi', slug: 'ekonomi' },
-  { label: 'Hukum', slug: 'hukum' },
-  { label: 'Kedokteran', slug: 'kedokteran' },
-  { label: 'MIPA', slug: 'mipa' },
-  { label: 'Sosial', slug: 'sosial' },
-];
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [totalBooks, setTotalBooks] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([{ label: 'Semua', slug: '' }]);
   const [activeCategory, setActiveCategory] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
@@ -48,6 +41,21 @@ const Home = () => {
   useEffect(() => {
     fetchBooks(searchQuery, activeCategory, page);
   }, [searchQuery, activeCategory, page, fetchBooks]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get('/categories');
+        if (res.data.success) {
+          const dynamicCats = res.data.data.map(c => ({ label: c.name, slug: c.slug }));
+          setCategories([{ label: 'Semua', slug: '' }, ...dynamicCats]);
+        }
+      } catch (error) {
+        console.error('Failed to load categories', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleSearch = (query) => {
     if (query) {
@@ -124,9 +132,9 @@ const Home = () => {
           </div>
         )}
         <div className="home-category-chips">
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
-              key={cat.slug}
+              key={cat.slug || 'semua'}
               className={`home-category-chip ${activeCategory === cat.slug ? 'active' : ''}`}
               onClick={() => handleCategory(cat.slug)}
             >
