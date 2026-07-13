@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   BookOpen, ShoppingCart, User as UserIcon,
   LogOut, LayoutDashboard, Menu, X, RefreshCw, Home
@@ -16,7 +16,10 @@ const Navbar = () => {
   const { cart } = useContext(CartContext);
   const toast = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isHomePage = location.pathname === '/';
 
   const handleLogout = async () => {
     await logout();
@@ -55,9 +58,11 @@ const Navbar = () => {
           </Link>
 
           {/* Search Bar (center, desktop) */}
-          <div className="navbar-search">
-            <SearchBar onSearch={handleSearch} />
-          </div>
+          {!isHomePage && (
+            <div className="navbar-search">
+              <SearchBar onSearch={handleSearch} />
+            </div>
+          )}
 
           {/* Desktop Actions */}
           <div className="navbar-actions">
@@ -158,9 +163,11 @@ const Navbar = () => {
         {mobileOpen && (
           <div className="navbar-mobile-panel">
             {/* Search */}
-            <div className="navbar-mobile-search-wrap">
-              <SearchBar onSearch={handleSearch} />
-            </div>
+            {!isHomePage && (
+              <div className="navbar-mobile-search-wrap">
+                <SearchBar onSearch={handleSearch} />
+              </div>
+            )}
 
             {user ? (
               <>

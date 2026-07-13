@@ -354,7 +354,7 @@ const Profile = () => {
         )}
 
         {/* ── Form Upload KTM (Jika belum diverifikasi dan belum upload) ─────────────────────────── */}
-        {!user?.is_verified && !user?.ktm_url && (
+        {!user?.is_verified && !user?.ktm_url && user?.role !== 'admin' && (
           <div className="profile-section">
             <div className="profile-section-title">
               🎓 Verifikasi Sebagai Penjual (Upload KTM)
