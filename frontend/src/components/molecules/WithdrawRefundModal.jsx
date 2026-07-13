@@ -64,8 +64,8 @@ const WithdrawRefundModal = ({ order, onClose }) => {
       return;
     }
 
-    if (wallet?.available_balance <= 0) {
-      setError('Saldo tidak mencukupi atau sudah ditarik.');
+    if (wallet?.available_balance < order.total_amount) {
+      setError('Saldo refund tidak mencukupi untuk pesanan ini.');
       return;
     }
 
@@ -80,9 +80,9 @@ const WithdrawRefundModal = ({ order, onClose }) => {
       
       const newBankId = bankRes.data.id;
 
-      // 2. Request Withdrawal for the available balance
+      // 2. Request Withdrawal for the specific order refund amount
       await withdrawalService.requestWithdrawal({
-        amount: wallet.available_balance,
+        amount: order.total_amount,
         bank_account_id: newBankId
       });
 
@@ -120,32 +120,34 @@ const WithdrawRefundModal = ({ order, onClose }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '8px', padding: '1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <Banknote size={32} color="#22c55e" />
+              <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                <div style={{ background: '#22c55e', padding: '0.75rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Banknote size={24} color="#ffffff" />
+                </div>
                 <div>
-                  <Typography variant="small" color="muted">Total Saldo Refund Tersedia</Typography>
-                  <Typography variant="h4" weight="bold" style={{ color: '#22c55e', margin: 0 }}>
-                    {formatIDR(wallet?.available_balance || 0)}
+                  <Typography variant="small" color="muted" style={{ display: 'block', marginBottom: '0.25rem' }}>Nominal Refund Pesanan Ini</Typography>
+                  <Typography variant="h3" weight="bold" style={{ color: '#22c55e', margin: 0, lineHeight: 1 }}>
+                    {formatIDR(order?.total_amount || 0)}
                   </Typography>
                 </div>
               </div>
 
-              {(wallet?.available_balance || 0) <= 0 ? (
-                <div style={{ background: 'rgba(245,158,11,0.1)', color: '#d97706', padding: '1rem', borderRadius: '8px', display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+              {(wallet?.available_balance || 0) < (order?.total_amount || 0) ? (
+                <div style={{ background: 'rgba(245,158,11,0.1)', color: '#d97706', padding: '1rem', borderRadius: '8px', display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
                   <AlertCircle size={18} style={{ flexShrink: 0 }} />
-                  <Typography variant="small">Saldo refund Anda kosong. Kemungkinan dana sudah ditarik atau sedang dalam proses penarikan.</Typography>
+                  <Typography variant="small">Saldo refund Anda kurang dari nominal pesanan. Kemungkinan dana sudah ditarik sebagian atau sedang diproses.</Typography>
                 </div>
               ) : (
                 <>
-                  <Typography variant="body" style={{ marginBottom: '1.25rem', color: 'var(--color-text-secondary)' }}>
-                    Masukkan rekening tujuan untuk menarik dana refund Anda. Seluruh saldo tersedia akan ditarik ke rekening ini.
+                  <Typography variant="body" style={{ marginBottom: '1.5rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
+                    Silakan lengkapi detail rekening tujuan Anda di bawah ini. Dana sebesar <strong>{formatIDR(order?.total_amount || 0)}</strong> akan ditarik ke rekening tersebut.
                   </Typography>
 
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Bank / E-Wallet</label>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.6rem', fontSize: '0.9rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Bank / E-Wallet</label>
                     <select
                       className="form-input"
-                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
+                      style={{ width: '100%', padding: '0.875rem 1rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
                       value={COMMON_BANKS.includes(form.bank_name) ? form.bank_name : (form.bank_name ? 'Lainnya' : '')}
                       onChange={e => {
                         if (e.target.value === 'Lainnya') {
@@ -166,7 +168,7 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                       <input
                         type="text"
                         className="form-input"
-                        style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)', marginTop: '0.75rem' }}
+                        style={{ width: '100%', padding: '0.875rem 1rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)', marginTop: '0.75rem' }}
                         placeholder="Ketik nama bank lainnya..."
                         value={form.bank_name}
                         onChange={e => setForm({ ...form, bank_name: e.target.value })}
@@ -175,12 +177,12 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                     )}
                   </div>
                   
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nomor Rekening / No. HP E-Wallet</label>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.6rem', fontSize: '0.9rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nomor Rekening / No. HP E-Wallet</label>
                     <input
                       type="text"
                       className="form-input"
-                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
+                      style={{ width: '100%', padding: '0.875rem 1rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
                       placeholder="Contoh: 1234567890"
                       value={form.account_number}
                       onChange={e => setForm({ ...form, account_number: e.target.value })}
@@ -188,12 +190,12 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                     />
                   </div>
                   
-                  <div style={{ marginBottom: '2rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Pemilik Rekening</label>
+                  <div style={{ marginBottom: '2.5rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.6rem', fontSize: '0.9rem', fontWeight: '600', color: 'var(--color-text-main)' }}>Nama Pemilik Rekening</label>
                     <input
                       type="text"
                       className="form-input"
-                      style={{ width: '100%', padding: '0.875rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
+                      style={{ width: '100%', padding: '0.875rem 1rem', borderRadius: '8px', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface-50)' }}
                       placeholder="Sesuai buku tabungan atau e-wallet"
                       value={form.account_holder_name}
                       onChange={e => setForm({ ...form, account_holder_name: e.target.value })}
@@ -216,7 +218,7 @@ const WithdrawRefundModal = ({ order, onClose }) => {
                   type="submit" 
                   variant="primary" 
                   style={{ flex: 1, justifyContent: 'center' }} 
-                  disabled={submitting || (wallet?.available_balance || 0) <= 0}
+                  disabled={submitting || (wallet?.available_balance || 0) < (order?.total_amount || 0)}
                   isLoading={submitting}
                 >
                   Tarik Dana
