@@ -135,7 +135,11 @@ const BuyerOrders = () => {
   const handlePay = async (orderId) => {
     try {
       setPaying(orderId);
-      const res = await payService.createPayment({ order_id: orderId, payment_method: 'qris' });
+      const res = await payService.createPayment({
+        order_id: orderId,
+        payment_method: 'qris',
+        redirect_url: `${window.location.origin}/buyer/orders?payment_redirect=true&ref_id=${orderId}`
+      });
       if (res.success && res.data?.payment_url) {
         window.open(res.data.payment_url, '_blank');
       } else {
