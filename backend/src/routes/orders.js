@@ -52,12 +52,15 @@ router.get('/', verifyToken, async (req, res) => {
 
     for (const order of rows) {
       const [items] = await pool.query(
-        `SELECT oi.*, b.title, b.author, b.condition,
+        `SELECT oi.*, b.title, b.author, b.condition, u.name as seller_name,
          COALESCE(
            (SELECT bi.url FROM book_images bi WHERE bi.book_id = b.id AND bi.is_cover = TRUE LIMIT 1),
            b.cover_image
          ) as cover_url
-         FROM order_items oi JOIN books b ON oi.book_id = b.id WHERE oi.order_id = ?`,
+         FROM order_items oi
+         JOIN books b ON oi.book_id = b.id
+         JOIN users u ON oi.seller_id = u.id
+         WHERE oi.order_id = ?`,
         [order.id]
       );
       order.items = items;

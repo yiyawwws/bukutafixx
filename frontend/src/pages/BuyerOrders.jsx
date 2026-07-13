@@ -311,8 +311,8 @@ const BuyerOrders = () => {
             const q = searchQuery.toLowerCase();
             return (
               o.id.toString().includes(q) ||
-              o.items?.some(i => i.title?.toLowerCase().includes(q)) ||
-              o.items?.some(i => i.seller_name?.toLowerCase().includes(q))
+              o.items?.some(i => i.title?.toLowerCase()?.includes(q)) ||
+              o.items?.some(i => i.seller_name?.toLowerCase()?.includes(q))
             );
           }).map(order => {
             const statusInfo = statusMap[order.status] || { label: order.status, variant: 'default', icon: <Package size={14}/> };
