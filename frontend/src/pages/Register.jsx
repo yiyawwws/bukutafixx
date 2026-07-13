@@ -103,7 +103,7 @@ const Register = () => {
           </button>
         </div>
 
-        <FormField label="Universitas" name="university" value={formData.university} onChange={handleChange} placeholder="Contoh: Universitas Hasanuddin" required />
+        <FormField label="Universitas" name="university" value={formData.university} onChange={handleChange} placeholder="Contoh: Universitas Islam Negeri Alauddin Makassar" required />
         <FormField label="No. Handphone (WhatsApp)" name="phone" value={formData.phone} onChange={handleChange} placeholder="Contoh: 081234567890" />
 
         {/* File uploads */}
