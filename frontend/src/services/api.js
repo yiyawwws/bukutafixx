@@ -39,4 +39,31 @@ api.interceptors.response.use(
   }
 );
 
+export const viewSecureFile = async (url) => {
+  if (!url) return;
+  
+  // If it is a Cloudinary URL, open directly
+  if (url.startsWith('http') && url.includes('cloudinary.com')) {
+    window.open(url, '_blank');
+    return;
+  }
+  
+  try {
+    let cleanUrl = url;
+    if (cleanUrl.startsWith('/api')) {
+      cleanUrl = cleanUrl.replace(/^\/api/, '');
+    }
+    const res = await api.get(cleanUrl, { responseType: 'blob' });
+    const blob = new Blob([res.data], { type: res.headers['content-type'] });
+    const blobUrl = URL.createObjectURL(blob);
+    window.open(blobUrl, '_blank');
+  } catch (err) {
+    console.error('Failed to view secure file:', err);
+    // Fallback: try opening directly via backend url
+    const backendUrl = api.defaults.baseURL.replace(/\/api$/, '');
+    const absoluteUrl = url.startsWith('http') ? url : `${backendUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+    window.open(absoluteUrl, '_blank');
+  }
+};
+
 export default api;

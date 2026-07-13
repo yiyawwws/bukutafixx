@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { withdrawalService } from '../../services/withdrawalService';
+import { viewSecureFile } from '../../services/api';
 import Typography from '../../components/atoms/Typography';
 import Button from '../../components/atoms/Button';
 import Spinner from '../../components/atoms/Spinner';
@@ -290,9 +291,13 @@ const SellerWithdrawal = () => {
                         </td>
                         <td>
                           {item.transfer_proof ? (
-                            <a href={item.transfer_proof} target="_blank" rel="noopener noreferrer" style={{ color: '#1877F2', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                            <button
+                              type="button"
+                              onClick={() => viewSecureFile(item.transfer_proof)}
+                              style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#1877F2', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: 3 }}
+                            >
                               <ExternalLink size={12} /> Lihat
-                            </a>
+                            </button>
                           ) : (
                             <Typography variant="xs" color="muted">—</Typography>
                           )}

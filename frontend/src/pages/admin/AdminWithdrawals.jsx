@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { withdrawalService } from '../../services/withdrawalService';
+import { viewSecureFile } from '../../services/api';
 import Typography from '../../components/atoms/Typography';
 import Button from '../../components/atoms/Button';
 import Spinner from '../../components/atoms/Spinner';
@@ -360,10 +361,13 @@ const AdminWithdrawals = () => {
                             </td>
                             <td>
                               {wr.transfer_proof ? (
-                                <a href={wr.transfer_proof} target="_blank" rel="noopener noreferrer"
-                                  style={{ color: '#1877F2', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                                <button
+                                  type="button"
+                                  onClick={() => viewSecureFile(wr.transfer_proof)}
+                                  style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: '#1877F2', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: 3 }}
+                                >
                                   <ExternalLink size={12} /> Lihat
-                                </a>
+                                </button>
                               ) : <Typography variant="xs" color="muted">—</Typography>}
                             </td>
                             <td>
