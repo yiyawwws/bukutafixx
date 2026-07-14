@@ -44,6 +44,7 @@ const DashboardLayout = () => {
         { path: '/admin/dashboard', icon: <BarChart2 size={19} />, label: 'Dashboard' },
         { path: '/admin/users', icon: <User size={19} />, label: 'Manajemen User' },
         { path: '/admin/books', icon: <BookOpen size={19} />, label: 'Manajemen Buku' },
+        { path: '/admin/orders', icon: <ListOrdered size={19} />, label: 'Riwayat Pesanan' },
         { path: '/admin/categories', icon: <Tag size={19} />, label: 'Kategori' },
         { path: '/admin/disputes', icon: <ShieldAlert size={19} />, label: 'Dispute' },
         { path: '/admin/withdrawals', icon: <Banknote size={19} />, label: 'Penarikan Dana' },

@@ -27,6 +27,7 @@ import Privacy from './pages/Privacy';
 // Admin Pages
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminBooks from './pages/admin/AdminBooks';
+import AdminOrders from './pages/admin/AdminOrders';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminDisputes from './pages/admin/AdminDisputes';
 import AdminWithdrawals from './pages/admin/AdminWithdrawals';
@@ -80,6 +81,7 @@ const App = () => {
                   <Route path="/admin/dashboard" element={<Dashboard />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
                   <Route path="/admin/books" element={<AdminBooks />} />
+                  <Route path="/admin/orders" element={<AdminOrders />} />
                   <Route path="/admin/categories" element={<AdminCategories />} />
                   <Route path="/admin/disputes" element={<AdminDisputes />} />
                   <Route path="/admin/withdrawals" element={<AdminWithdrawals />} />
