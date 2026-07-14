@@ -51,7 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom container">
-        <p>© {new Date().getFullYear()} Bukuta. Dibuat oleh mahasiswa untuk mahasiswa.</p>
+        <p>© {new Date().getFullYear()} Bukuta. Dibuat oleh mahasiswa untuk semua.</p>
       </div>
     </footer>
   );
