@@ -20,6 +20,9 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import BuyerOrders from './pages/BuyerOrders';
 import Profile from './pages/Profile';
+import About from './pages/About';
+import HowItWorks from './pages/HowItWorks';
+import Privacy from './pages/Privacy';
 
 // Admin Pages
 import AdminUsers from './pages/admin/AdminUsers';
@@ -51,6 +54,9 @@ const App = () => {
                   <Route path="books/:id" element={<BookDetail />} />
                   <Route path="cart" element={<Cart />} />
                   <Route path="checkout" element={<Checkout />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="how-it-works" element={<HowItWorks />} />
+                  <Route path="privacy" element={<Privacy />} />
                 </Route>
 
                 {/* Auth routes (centered, split layout) */}

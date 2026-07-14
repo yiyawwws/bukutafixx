@@ -33,9 +33,9 @@ const Footer = () => {
           </div>
           <div className="footer-col">
             <h4 className="footer-col-title">Informasi</h4>
-            <a href="#" className="footer-link">Tentang Kami</a>
-            <a href="#" className="footer-link">Cara Kerja</a>
-            <a href="#" className="footer-link">Kebijakan Privasi</a>
+            <Link to="/about" className="footer-link">Tentang Kami</Link>
+            <Link to="/how-it-works" className="footer-link">Cara Kerja</Link>
+            <Link to="/privacy" className="footer-link">Kebijakan Privasi</Link>
           </div>
         </div>
       </div>
