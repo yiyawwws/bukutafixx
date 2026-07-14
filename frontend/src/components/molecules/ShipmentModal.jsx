@@ -20,6 +20,14 @@ const ShipmentModal = ({ order, onClose, onSuccess }) => {
       setError('Nama kurir wajib diisi.');
       return;
     }
+    if (!form.tracking_number.trim()) {
+      setError('Nomor resi wajib diisi.');
+      return;
+    }
+    if (!file) {
+      setError('Bukti pengiriman wajib diunggah.');
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -100,7 +108,7 @@ const ShipmentModal = ({ order, onClose, onSuccess }) => {
           {/* Tracking number */}
           <div className="shipment-form-group">
             <label className="shipment-label">
-              Nomor Resi <span className="shipment-label-optional">(opsional)</span>
+              Nomor Resi <span>*</span>
             </label>
             <input
               className="shipment-input"
@@ -131,7 +139,7 @@ const ShipmentModal = ({ order, onClose, onSuccess }) => {
           {/* Upload Proof */}
           <div className="shipment-form-group">
             <label className="shipment-label">
-              Bukti Pengiriman <span className="shipment-label-optional">(opsional)</span>
+              Bukti Pengiriman <span>*</span>
             </label>
             <div 
               onClick={() => fileInputRef.current?.click()}

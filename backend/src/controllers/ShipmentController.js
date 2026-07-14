@@ -23,6 +23,14 @@ class ShipmentController {
       return res.status(400).json({ success: false, message: 'Nama kurir wajib diisi' });
     }
 
+    if (!tracking_number || !tracking_number.trim()) {
+      return res.status(400).json({ success: false, message: 'Nomor resi wajib diisi' });
+    }
+
+    if (!shipping_proof_image) {
+      return res.status(400).json({ success: false, message: 'Bukti pengiriman wajib diunggah' });
+    }
+
     try {
       await OrderFlowService.submitShipment(orderId, sellerId, {
         courier_name: courier_name.trim(),
