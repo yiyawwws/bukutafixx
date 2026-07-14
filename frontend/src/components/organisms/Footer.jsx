@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Heart, MessageSquare, Send, Mail } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 import './Footer.css';
 
 const Footer = () => {
+  const { user } = useContext(AuthContext);
+
+  const getJualBukuLink = () => {
+    if (!user) return '/login';
+    if (user.role === 'admin') return '/admin/dashboard';
+    if (user.role === 'seller' && user.active_role === 'seller') return '/seller/books/add';
+    if (user.role === 'seller') return '/seller/dashboard';
+    return '/profile';
+  };
   return (
     <footer className="footer">
       <div className="container footer-inner">
@@ -28,7 +38,7 @@ const Footer = () => {
           <div className="footer-col">
             <h4 className="footer-col-title">Marketplace</h4>
             <Link to="/" className="footer-link">Cari Buku</Link>
-            <Link to="/register" className="footer-link">Jual Buku</Link>
+            <Link to={getJualBukuLink()} className="footer-link">Jual Buku</Link>
             <Link to="/cart" className="footer-link">Keranjang</Link>
           </div>
           <div className="footer-col">
