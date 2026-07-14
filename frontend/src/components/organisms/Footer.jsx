@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Heart, MessageSquare, Send, Mail } from 'lucide-react';
+import { BookOpen, MessageSquare, Send, Mail } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import './Footer.css';
 
@@ -51,7 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom container">
-        <p>© {new Date().getFullYear()} Bukuta. Dibuat dengan <Heart size={12} fill="currentColor" /> untuk mahasiswa.</p>
+        <p>© {new Date().getFullYear()} Bukuta. Dibuat oleh mahasiswa untuk mahasiswa.</p>
       </div>
     </footer>
   );
